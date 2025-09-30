@@ -1,0 +1,267 @@
+# EzQuake Project .gitignore
+# This file excludes large files, build artifacts, and unnecessary files from Git
+
+# ============================================================================
+# Build Directories and Artifacts
+# ============================================================================
+
+# Main build directories
+build*/
+out/
+bin/
+obj/
+Debug/
+Release/
+RelWithDebInfo/
+MinSizeRel/
+
+# CMake build directories
+build-*/
+cmake-build-*/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+CTestTestfile.cmake
+install_manifest.txt
+
+# Visual Studio build artifacts
+*.vcxproj.user
+*.vcxproj.filters
+*.sln.docstates
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+.vs/
+
+# Compiled binaries
+*.exe
+*.dll
+*.so
+*.dylib
+*.a
+*.lib
+*.pdb
+*.ilk
+*.exp
+
+# Object files
+*.o
+*.obj
+*.lo
+*.slo
+*.ko
+*.elf
+
+# ============================================================================
+# vcpkg Package Manager (Large Files)
+# ============================================================================
+
+# vcpkg build trees (can be very large)
+vcpkg/buildtrees/
+vcpkg/packages/
+vcpkg/downloads/
+vcpkg/installed/
+
+# vcpkg binary cache
+vcpkg/archives/
+
+# vcpkg logs
+vcpkg/logs/
+
+# Keep vcpkg configuration but exclude large data
+vcpkg/ports/
+vcpkg/versions/
+vcpkg/scripts/
+vcpkg/triplets/
+vcpkg/toolsrc/
+
+# Keep vcpkg executable but exclude if too large
+# Uncomment the next line if vcpkg.exe is too large for your repository
+# vcpkg/vcpkg.exe
+
+# ============================================================================
+# Temporary and Cache Files
+# ============================================================================
+
+# Temporary files
+*.tmp
+*.temp
+*~
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE and editor files
+.vscode/
+.idea/
+*.sublime-*
+*.code-workspace
+
+# ============================================================================
+# Logs and Debug Files
+# ============================================================================
+
+# Log files
+*.log
+*.out
+*.err
+
+# Core dumps
+core
+core.*
+
+# ============================================================================
+# Documentation Build Artifacts
+# ============================================================================
+
+# Generated documentation
+docs/_build/
+docs/build/
+*.chm
+*.hlp
+
+# ============================================================================
+# Platform-specific Files
+# ============================================================================
+
+# Windows
+*.lnk
+*.url
+*.ini
+ehthumbs.db
+[Dd]esktop.ini
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+._*
+.Spotlight-V100
+.Trashes
+
+# Linux
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+
+# ============================================================================
+# Game-specific Files (if any)
+# ============================================================================
+
+# Game data that shouldn't be in source control
+*.pak
+*.pk3
+*.wad
+*.bsp
+*.dem
+*.mvd
+
+# Configuration files that are user-specific
+config.cfg
+autoexec.cfg
+*.cfg.bak
+
+# ============================================================================
+# Archive Files (Usually Large)
+# ============================================================================
+
+*.zip
+*.tar
+*.tar.gz
+*.tar.bz2
+*.tar.xz
+*.rar
+*.7z
+*.gz
+*.bz2
+*.xz
+
+# ============================================================================
+# Backup Files
+# ============================================================================
+
+*.bak
+*.backup
+*.old
+*~
+
+# ============================================================================
+# Node.js (if any web components)
+# ============================================================================
+
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ============================================================================
+# Python (if any Python scripts)
+# ============================================================================
+
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+.env
+
+# ============================================================================
+# Custom Exclusions for EzQuake
+# ============================================================================
+
+# Exclude large test files or sample data
+test_data/
+samples/
+examples/large_files/
+
+# Exclude any generated shader cache
+*.cache
+shader_cache/
+
+# Exclude any crash dumps
+*.dmp
+*.mdmp
+
+# ============================================================================
+# Keep Important Files (Negative Patterns)
+# ============================================================================
+
+# Keep important vcpkg files
+!vcpkg/vcpkg.json
+!vcpkg/.vcpkg-root
+!vcpkg/bootstrap-vcpkg.bat
+!vcpkg/bootstrap-vcpkg.sh
+
+# Keep important build scripts
+!build-linux.sh
+!bootstrap.ps1
+!bootstrap.sh
+!CMakeLists.txt
+!CMakePresets.json
+
+# Keep source code
+!src/
+!src/**/*.c
+!src/**/*.h
+!src/**/*.cpp
+!src/**/*.hpp
+
+# Keep documentation
+!*.md
+!*.txt
+!LICENSE
+!README*
+
+# Keep configuration
+!*.json
+!*.cmake
+!*.yml
+!*.yaml
