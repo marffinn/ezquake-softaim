@@ -16,8 +16,8 @@
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             line-height: 1.6;
-            color: #333;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #e0e0e0;
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
             min-height: 100vh;
         }
 
@@ -53,38 +53,40 @@
             display: inline-block;
             padding: 15px 35px;
             margin: 10px;
-            background: white;
-            color: #667eea;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
             text-decoration: none;
             border-radius: 50px;
             font-weight: bold;
             font-size: 1.1em;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
         }
 
         .btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
         }
 
         .btn-secondary {
             background: transparent;
             color: white;
-            border: 2px solid white;
+            border: 2px solid #667eea;
         }
 
         .btn-secondary:hover {
-            background: white;
-            color: #667eea;
+            background: rgba(102, 126, 234, 0.2);
+            border-color: #764ba2;
         }
 
         .content {
-            background: white;
+            background: rgba(30, 30, 50, 0.8);
             border-radius: 20px;
             padding: 50px;
             margin: 30px 0;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(102, 126, 234, 0.2);
         }
 
         .features {
@@ -96,17 +98,20 @@
 
         .feature-card {
             padding: 30px;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(118, 75, 162, 0.15) 100%);
             border-radius: 15px;
             transition: transform 0.3s ease;
+            border: 1px solid rgba(102, 126, 234, 0.3);
         }
 
         .feature-card:hover {
             transform: translateY(-5px);
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.25) 0%, rgba(118, 75, 162, 0.25) 100%);
+            border-color: rgba(102, 126, 234, 0.5);
         }
 
         .feature-card h3 {
-            color: #667eea;
+            color: #a8b5ff;
             margin-bottom: 15px;
             font-size: 1.5em;
         }
@@ -126,26 +131,27 @@
             content: "✓";
             position: absolute;
             left: 0;
-            color: #667eea;
+            color: #a8b5ff;
             font-weight: bold;
         }
 
         h2 {
-            color: #667eea;
+            color: #a8b5ff;
             margin: 40px 0 20px 0;
             font-size: 2.5em;
             text-align: center;
         }
 
         .installation {
-            background: #f8f9fa;
+            background: rgba(102, 126, 234, 0.1);
             padding: 30px;
             border-radius: 15px;
             margin: 30px 0;
+            border: 1px solid rgba(102, 126, 234, 0.2);
         }
 
         .installation h3 {
-            color: #667eea;
+            color: #a8b5ff;
             margin-bottom: 15px;
         }
 
@@ -158,19 +164,22 @@
         }
 
         code {
-            background: #e9ecef;
+            background: rgba(0, 0, 0, 0.4);
             padding: 2px 8px;
             border-radius: 4px;
             font-family: 'Courier New', monospace;
+            color: #ffd700;
+            border: 1px solid rgba(102, 126, 234, 0.3);
         }
 
         .download-section {
             text-align: center;
             padding: 40px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.3) 0%, rgba(118, 75, 162, 0.3) 100%);
             color: white;
             border-radius: 15px;
             margin: 40px 0;
+            border: 1px solid rgba(102, 126, 234, 0.4);
         }
 
         .download-section h2 {
@@ -188,8 +197,8 @@
 
         .platform-btn {
             padding: 20px 40px;
-            background: white;
-            color: #667eea;
+            background: rgba(30, 30, 50, 0.9);
+            color: #a8b5ff;
             text-decoration: none;
             border-radius: 10px;
             font-weight: bold;
@@ -199,11 +208,14 @@
             flex-direction: column;
             align-items: center;
             min-width: 150px;
+            border: 2px solid rgba(102, 126, 234, 0.4);
         }
 
         .platform-btn:hover {
             transform: scale(1.05);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.5);
+            background: rgba(102, 126, 234, 0.3);
+            border-color: #a8b5ff;
         }
 
         .platform-icon {
@@ -254,11 +266,12 @@
         }
 
         .config-section {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.25) 0%, rgba(118, 75, 162, 0.25) 100%);
             color: white;
             padding: 50px;
             border-radius: 20px;
             margin: 40px 0;
+            border: 1px solid rgba(102, 126, 234, 0.4);
         }
 
         .config-section h2 {
@@ -280,17 +293,18 @@
         }
 
         .config-item {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.3);
             padding: 20px;
             border-radius: 10px;
-            border: 2px solid rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(102, 126, 234, 0.3);
             transition: all 0.3s ease;
         }
 
         .config-item:hover {
-            background: rgba(255, 255, 255, 0.15);
-            border-color: rgba(255, 255, 255, 0.4);
+            background: rgba(102, 126, 234, 0.2);
+            border-color: rgba(168, 181, 255, 0.6);
             transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
         }
 
         .config-command {
@@ -308,10 +322,12 @@
         }
 
         .config-note {
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(0, 0, 0, 0.3);
             padding: 20px;
             border-radius: 10px;
             margin-top: 30px;
+            border-left: 4px solid #ffd700;
+            border: 1px solid rgba(255, 215, 0, 0.3);
             border-left: 4px solid #ffd700;
         }
 
@@ -434,7 +450,7 @@
                     <li><strong>Linux:</strong> Run <code>./build-linux.sh</code></li>
                     <li><strong>Other platforms:</strong> See <a
                             href="https://github.com/marffinn/ezquake-softaim/blob/master/BUILD.md"
-                            style="color: #667eea;">BUILD.md</a> for detailed instructions</li>
+                            style="color: #a8b5ff;">BUILD.md</a> for detailed instructions</li>
                 </ul>
             </div>
         </div>
