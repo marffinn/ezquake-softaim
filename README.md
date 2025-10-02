@@ -1,83 +1,37 @@
-# ezQuake — Modern QuakeWorld Client
-Homepage: [https://ezquake.com][homepage]
+# ezQuake Softaim — A Gift to the Community
 
-Community discord: [http://discord.quake.world][discord]
+Dear QuakeWorld virtuosos,
 
-This is the right place to start playing QuakeWorld&reg; — the fastest first
-person shooter action game ever.
+It is with immense pleasure that I unveil the latest masterpiece: **ezQuake version 3.6.7**, now graced with softaim functionality so exquisitely crafted it could make a bot blush. Oh, and did I mention? It's **completely undetectable**—a true marvel of modern engineering, invisible to even the most eagle-eyed server admins among you. Better yet, it's so seamless that even the player using it will barely notice its subtle, game-changing touch. And stay tuned, because **undetectable timers are on the way**, ready to elevate your skills to even dizzier heights.
 
-Combining the features of all modern QuakeWorld® clients, ezQuake makes
-QuakeWorld&reg; easier to start and play. The immortal first person shooter
-Quake&reg; in the brand new skin with superb graphics and extremely fast
-gameplay.
+This gem exists because the powers-that-be refused to even consider my suggestions for truly securing the client—guess they thought their fortress was impregnable. So, I took matters into my own hands and crafted this little masterpiece. A special shoutout to **andeh**, **peppe**, **goniec**, **k4t**, and **goorol** for having such unwavering hope in me and for inspiring me to reach this glorious moment. Your support truly lit the fire under this project. Consider this my heartfelt gift to the community that so warmly embraced me before showing me the door with laughter ringing in my ears. May your frags be effortless, your matches suspiciously flawless, and your ban hammers forever swinging at shadows. Enjoy, champions.
 
-## Features
+## 🎯 Configuration
 
- * Modern graphics
- * [QuakeTV][qtv] support
- * Rich menus
- * Multiview support
- * Tons of features to serve latest pro-gaming needs
- * Built in server browser & MP3 player control
- * Recorded games browser
- * Customization of all possible graphics elements of the game including Heads Up Display
- * All sorts of scripting possibilities
- * Windows, Linux, MacOSX and FreeBSD platforms supported (SDL2).
+To make the most of this gift, try these settings:
 
-Our client comes only with bare minimum of game media. If you want to
-experience ezQuake with modern graphics and other additional media including
-custom configurations, maps, textures and more, try using the [nQuake][nQuake]-installer.
+```
+cl_softaim "1"
+cl_softaim_fov "30"
+cl_softaim_lg_range "600"
+cl_softaim_autoswitch "1"  // Switches from LG to boom if enemy is out of range
+cl_softaim_maxdist "600"
+cl_softaim_smoothness "0.6"
+cl_softaim_strength "40"  // Test it out for the best value for you!
+```
 
-## Support
+## 📥 Download
 
-Need help with using ezQuake? Try #dev-corner on [discord][discord]
+Visit the [Releases](https://github.com/marffinn/ezquake-softaim/releases) page to download the Windows binary.
 
-Or (less populated these days) visit us on IRC at QuakeNet, channel #ezQuake: [webchat][webchat] or [IRC][IRC].
+Or check out the [GitHub Pages site](https://marffinn.github.io/ezquake-softaim/) for more information.
 
-Sometimes help from other users of ezQuake might be more useful to you so you
-can also try visiting the [quakeworld.nu Client Talk-forums][forum].
+## ⚙️ Installation
 
-If you have found a bug, please report it [here][issues]
+1. Download the latest release
+2. Extract the executable to your Quake directory
+3. Launch and enjoy your enhanced gaming experience
 
-## Installation guide
+---
 
-To play Quakeworld you need the files *pak0.pak* and *pak1.pak* from the original Quake-game.
-
-### Install ezQuake to an existing Quake-installation
-If you have an existing Quake-installation simply extract the ezQuake executable into your Quake-directory.
-
-A typical error message when installing ezQuake into a pre-existing directory is about *glide2x.dll* missing.
-To get rid of this error, remove the file *opengl32.dll* from your Quake directory.
-
-### Upgrade an nQuake-installation
-If you have a version of [nQuake][nQuake] already installed you can upgrade ezQuake by extracting the new executable into the nQuake-directory.
-
-### Minimal clean installation
-If you want to make a clean installation of ezQuake you can do this by following these steps:
-
-1. Create a new directory
-2. Extract the ezQuake-executable into this directory
-3. Create a subdirectory called *id1*
-4. Copy *pak0.pak* and *pak1.pak* into this subdirectory
-
-## Compiling
-
-On Linux, `./build-linux.sh` produces an ezQuake binary in the top directory. 
-
-For a more in-depth description of how to build on all platforms, have a look at 
-[BUILD.md](BUILD.md).
-
-## Nightly builds
-
-Nightly builds can be found [here][nightly]
-
- [nQuake]: http://nquake.com/
- [webchat]: http://webchat.quakenet.org/?channels=#ezquake
- [IRC]: irc://irc.quakenet.org/#ezquake
- [forum]: http://www.quakeworld.nu/forum/8
- [qtv]: http://qtv.quakeworld.nu/
- [nightly]: https://builds.quakeworld.nu/ezquake/snapshots/
- [releases]: https://github.com/ezQuake/ezquake-source/releases
- [issues]: https://github.com/ezQuake/ezquake-source/issues
- [homepage]: https://ezquake.com
- [discord]: http://discord.quake.world/
+*Based on ezQuake 3.6.7 — The fastest first person shooter action game ever, now with a little extra help.*
