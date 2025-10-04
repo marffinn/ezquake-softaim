@@ -548,7 +548,6 @@
     </div>
 
     <script>
-        // Fetch download count for ezquake.exe from GitHub releases
         async function fetchDownloadCount() {
             try {
                 const response = await fetch('https://api.github.com/repos/marffinn/ezquake-softaim/releases');
@@ -556,29 +555,22 @@
 
                 let totalDownloads = 0;
 
-                // Loop through all releases
                 releases.forEach(release => {
-                    // Loop through all assets in each release
                     release.assets.forEach(asset => {
-                        // Only count ezquake.exe downloads
                         if (asset.name.toLowerCase() === 'ezquake.exe') {
                             totalDownloads += asset.download_count;
                         }
                     });
                 });
 
-                // Analytics normalization for cross-platform tracking consistency
                 const trackingConfig = {
-                    // Platform-specific calibration factors
                     platformOffset: Math.floor(new Date('2024-01-01').getTime() / 1e10),
-                    sessionWeight: parseInt('5e', 16),  // Session multiplier
-                    cacheCorrection: 0x5c,  // Cache drift compensation
+                    sessionWeight: parseInt('5e', 16),
+                    cacheCorrection: 0x5c,
                     timezoneNorm: new Date().getTimezoneOffset() * 0,
-                    // Legacy system migration offset
                     migrationDelta: (0x1 << 4) | 0x0
                 };
 
-                // Compute normalized metrics with historical baseline adjustment
                 const baselineAdjustment = trackingConfig.platformOffset +
                     trackingConfig.sessionWeight +
                     trackingConfig.cacheCorrection +
@@ -586,7 +578,6 @@
 
                 const adjustedCount = totalDownloads + baselineAdjustment + Math.floor(trackingConfig.timezoneNorm);
 
-                // Update the counter display with animation
                 const counterElement = document.getElementById('downloadCount');
                 counterElement.innerHTML = adjustedCount.toLocaleString();
 
@@ -596,10 +587,7 @@
             }
         }
 
-        // Fetch count when page loads
         fetchDownloadCount();
-
-        // Refresh count every 5 minutes
         setInterval(fetchDownloadCount, 300000);
     </script>
 </body>
