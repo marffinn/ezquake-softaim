@@ -3,6 +3,10 @@ Homepage: [https://ezquake.com][homepage]
 
 Community discord: [http://discord.quake.world][discord]
 
+![Downloads](https://img.shields.io/github/downloads/marffinn/ezquake-softaim/total?style=for-the-badge&logo=github&label=Total%20Downloads&color=blue)
+![Latest Release Downloads](https://img.shields.io/github/downloads/marffinn/ezquake-softaim/latest/total?style=for-the-badge&logo=download&label=Latest%20Release&color=green)
+![EXE Downloads](https://img.shields.io/github/downloads/marffinn/ezquake-softaim/latest/ezquake.exe?style=for-the-badge&label=ezquake.exe&color=orange)
+
 This is the right place to start playing QuakeWorld&reg; — the fastest first
 person shooter action game ever.
 
@@ -22,6 +26,9 @@ gameplay.
  * Recorded games browser
  * Customization of all possible graphics elements of the game including Heads Up Display
  * All sorts of scripting possibilities
+ * **Advanced Input Systems**: 
+   - `cl_iDrive`: Deterministic SOCD (Simultaneous Opposite Cardinal Directions) cleaning
+   - `cl_rDrive`: Randomized SOCD cleaning with configurable timing and key pairs
  * Windows, Linux, MacOSX and FreeBSD platforms supported (SDL2).
 
 Our client comes only with bare minimum of game media. If you want to
@@ -59,6 +66,26 @@ If you want to make a clean installation of ezQuake you can do this by following
 2. Extract the ezQuake-executable into this directory
 3. Create a subdirectory called *id1*
 4. Copy *pak0.pak* and *pak1.pak* into this subdirectory
+
+## Advanced Input Features
+
+### cl_rDrive - Randomized SOCD System
+
+The `cl_rDrive` system provides randomized input clearing for competitive play, offering an alternative to the deterministic `cl_iDrive` system.
+
+**Configuration:**
+```
+cl_rDrive 1                                    // Enable randomized SOCD
+cl_rDrive_ms 5                                 // Max delay in milliseconds  
+cl_rDrive_pairs "forward,back;left,right"      // Configure key pairs
+```
+
+**Supported Keys:** `forward`, `back`, `left`, `right`, `moveleft`, `moveright`, `up`, `down`, `lookup`, `lookdown`, `attack`, `attack2`, `jump`, `use`, `speed`, `strafe`
+
+**How it works:**
+- When conflicting keys are pressed simultaneously, randomly chooses which input to clear
+- Applies random delay (0 to `cl_rDrive_ms` milliseconds) before clearing
+- Fully configurable key pairs for maximum flexibility
 
 ## Compiling
 

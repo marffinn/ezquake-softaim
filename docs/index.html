@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ezQuake SoftAim - Enhanced QuakeWorld Client</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            border-radius: 10px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+        .subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 30px;
+            font-size: 1.2em;
+        }
+        .badges {
+            text-align: center;
+            margin: 30px 0;
+        }
+        .badges img {
+            margin: 5px;
+        }
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+        .feature-card {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+        .feature-card h3 {
+            color: #2c3e50;
+            margin-top: 0;
+        }
+        .code-block {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+        .download-section {
+            background: #e8f5e8;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 40px 0;
+        }
+        .download-btn {
+            display: inline-block;
+            background: #27ae60;
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 1.1em;
+            margin: 10px;
+            transition: background 0.3s;
+        }
+        .download-btn:hover {
+            background: #219a52;
+        }
+        .warning {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .highlight {
+            background: #e3f2fd;
+            padding: 20px;
+            border-radius: 5px;
+            border-left: 4px solid #2196f3;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎯 ezQuake SoftAim</h1>
+        <p class="subtitle">Enhanced QuakeWorld Client with Advanced Input Systems</p>
+        
+        <div class="badges">
+            <img src="https://img.shields.io/github/downloads/marffinn/ezquake-softaim/total?style=for-the-badge&logo=github&label=Total%20Downloads&color=blue" alt="Total Downloads">
+            <img src="https://img.shields.io/github/downloads/marffinn/ezquake-softaim/latest/total?style=for-the-badge&logo=download&label=Latest%20Release&color=green" alt="Latest Release Downloads">
+            <img src="https://img.shields.io/github/release/marffinn/ezquake-softaim?style=for-the-badge&logo=github&label=Latest%20Release&color=orange" alt="Latest Release">
+        </div>
+
+        <div class="download-section">
+            <h2>📥 Download Latest Release</h2>
+            <p>Get the latest version of ezQuake with SoftAim and cl_rDrive features</p>
+            <a href="https://github.com/marffinn/ezquake-softaim/releases/latest/download/ezquake.exe" class="download-btn">
+                Download ezquake.exe
+            </a>
+            <a href="https://github.com/marffinn/ezquake-softaim/releases" class="download-btn" style="background: #3498db;">
+                View All Releases
+            </a>
+        </div>
+
+        <div class="highlight">
+            <h2>🚀 What's New</h2>
+            <p><strong>cl_rDrive System:</strong> Revolutionary randomized SOCD (Simultaneous Opposite Cardinal Directions) input clearing system that provides unpredictable input behavior for competitive play.</p>
+        </div>
+
+        <div class="feature-grid">
+            <div class="feature-card">
+                <h3>🎯 SoftAim System</h3>
+                <p>Subtle aim assistance that helps with micro-adjustments when firing. Natural feeling assistance that doesn't feel like a traditional aimbot.</p>
+                <div class="code-block">cl_softaim 1
+cl_softaim_strength 1.0
+cl_softaim_maxdist 512</div>
+            </div>
+
+            <div class="feature-card">
+                <h3>🎲 cl_rDrive - Randomized SOCD</h3>
+                <p>Advanced randomized input clearing system. Unlike deterministic cl_iDrive, this randomly chooses which input to clear with configurable timing.</p>
+                <div class="code-block">cl_rDrive 1
+cl_rDrive_ms 5
+cl_rDrive_pairs "forward,back;left,right"</div>
+            </div>
+
+            <div class="feature-card">
+                <h3>⚡ cl_iDrive - Deterministic SOCD</h3>
+                <p>Traditional SOCD cleaning where the most recently pressed key takes priority. Predictable and consistent behavior.</p>
+                <div class="code-block">cl_iDrive 1</div>
+            </div>
+
+            <div class="feature-card">
+                <h3>🔧 Flexible Configuration</h3>
+                <p>Highly configurable systems with support for custom key pairs, timing adjustments, and various input combinations.</p>
+                <p><strong>Supported Keys:</strong> forward, back, left, right, moveleft, moveright, up, down, lookup, lookdown, attack, attack2, jump, use, speed, strafe</p>
+            </div>
+        </div>
+
+        <h2>📖 Configuration Guide</h2>
+
+        <h3>SoftAim Configuration</h3>
+        <div class="code-block">// Basic SoftAim setup
+cl_softaim 1                    // Enable SoftAim
+cl_softaim_strength 1.0         // Assistance strength (0.5-2.0)
+cl_softaim_maxdist 512          // Maximum targeting distance
+cl_softaim_fov 90               // Field of view for targeting
+cl_softaim_smooth 0.3           // Smoothing factor
+cl_softaim_autoswitch 0         // Auto weapon switching (experimental)</div>
+
+        <h3>cl_rDrive Configuration</h3>
+        <div class="code-block">// Randomized SOCD setup
+cl_rDrive 1                                    // Enable randomized SOCD
+cl_rDrive_ms 5                                 // Max delay in milliseconds
+cl_rDrive_pairs "forward,back;left,right"      // Configure key pairs
+
+// Advanced configuration
+cl_rDrive_pairs "forward,back;left,right;attack,attack2;lookup,lookdown"</div>
+
+        <div class="warning">
+            <strong>⚠️ Important:</strong> Only enable one SOCD system at a time. Use either <code>cl_iDrive</code> OR <code>cl_rDrive</code>, not both simultaneously.
+        </div>
+
+        <h2>🔄 How cl_rDrive Works</h2>
+        <ol>
+            <li><strong>Conflict Detection:</strong> When both keys in a configured pair are pressed simultaneously</li>
+            <li><strong>Random Selection:</strong> The system randomly chooses which key to clear (50/50 chance)</li>
+            <li><strong>Random Timing:</strong> A random delay (0 to cl_rDrive_ms milliseconds) is applied</li>
+            <li><strong>Input Clearing:</strong> The selected key's input is cleared after the delay</li>
+            <li><strong>State Reset:</strong> When both keys are released, the system resets</li>
+        </ol>
+
+        <h2>📊 Comparison: cl_iDrive vs cl_rDrive</h2>
+        <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
+            <tr style="background: #f8f9fa;">
+                <th style="padding: 12px; border: 1px solid #ddd;">Feature</th>
+                <th style="padding: 12px; border: 1px solid #ddd;">cl_iDrive</th>
+                <th style="padding: 12px; border: 1px solid #ddd;">cl_rDrive</th>
+            </tr>
+            <tr>
+                <td style="padding: 12px; border: 1px solid #ddd;"><strong>Clearing Logic</strong></td>
+                <td style="padding: 12px; border: 1px solid #ddd;">Deterministic (newest key wins)</td>
+                <td style="padding: 12px; border: 1px solid #ddd;">Random selection</td>
+            </tr>
+            <tr style="background: #f8f9fa;">
+                <td style="padding: 12px; border: 1px solid #ddd;"><strong>Timing</strong></td>
+                <td style="padding: 12px; border: 1px solid #ddd;">Immediate</td>
+                <td style="padding: 12px; border: 1px solid #ddd;">Random delay (0-N ms)</td>
+            </tr>
+            <tr>
+                <td style="padding: 12px; border: 1px solid #ddd;"><strong>Configuration</strong></td>
+                <td style="padding: 12px; border: 1px solid #ddd;">Fixed key pairs</td>
+                <td style="padding: 12px; border: 1px solid #ddd;">User-configurable pairs</td>
+            </tr>
+            <tr style="background: #f8f9fa;">
+                <td style="padding: 12px; border: 1px solid #ddd;"><strong>Predictability</strong></td>
+                <td style="padding: 12px; border: 1px solid #ddd;">Predictable behavior</td>
+                <td style="padding: 12px; border: 1px solid #ddd;">Unpredictable behavior</td>
+            </tr>
+        </table>
+
+        <h2>🔗 Links</h2>
+        <ul>
+            <li><a href="https://github.com/marffinn/ezquake-softaim">GitHub Repository</a></li>
+            <li><a href="https://github.com/marffinn/ezquake-softaim/releases">Releases</a></li>
+            <li><a href="https://github.com/marffinn/ezquake-softaim/issues">Report Issues</a></li>
+            <li><a href="https://ezquake.com">Official ezQuake Homepage</a></li>
+            <li><a href="http://discord.quake.world">QuakeWorld Discord</a></li>
+        </ul>
+
+        <footer style="text-align: center; margin-top: 50px; padding-top: 30px; border-top: 1px solid #eee; color: #7f8c8d;">
+            <p>Based on ezQuake - The Modern QuakeWorld Client</p>
+            <p>Enhanced with SoftAim and cl_rDrive systems</p>
+        </footer>
+    </div>
+</body>
+</html>

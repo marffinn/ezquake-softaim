@@ -35,6 +35,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "sbar.h"
 #include "hud.h"
 #include "hud_common.h"
+#include "hud_itemtimers.h"
 #include "Ctrl.h"
 #include "console.h"
 #include "teamplay.h"
@@ -1031,6 +1032,7 @@ void CommonDraw_Init(void)
 	Tracking_HudInit();
 	CenterPrint_HudInit();
 	Qtv_HudInit();
+	ItemTimers_HudInit();
 }
 
 const char* HUD_FirstTeam(void)

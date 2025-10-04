@@ -33,6 +33,10 @@ cvar_t cl_c2sdupe = { "cl_c2sdupe", "0" };
 cvar_t cl_forwardspeed = { "cl_forwardspeed","400" };
 cvar_t cl_smartjump = { "cl_smartjump", "1" };
 cvar_t cl_iDrive = { "cl_iDrive", "0", 0, Rulesets_OnChange_cl_iDrive };
+// cl_rDrive - randomized input clearing system
+cvar_t cl_rDrive = { "cl_rDrive", "0" };                    // Master enable/disable
+cvar_t cl_rDrive_ms = { "cl_rDrive_ms", "3" };              // Max delay in milliseconds for randomization
+cvar_t cl_rDrive_pairs = { "cl_rDrive_pairs", "" };         // Key pairs to apply rDrive to (e.g., "forward,back;left,right")
 cvar_t cl_movespeedkey = { "cl_movespeedkey","2.0" };
 cvar_t cl_nodelta = { "cl_nodelta","0" };
 cvar_t cl_pitchspeed = { "cl_pitchspeed","150" };
@@ -111,6 +115,21 @@ kbutton_t in_strafe, in_speed, in_use, in_jump, in_attack, in_attack2;
 kbutton_t in_up, in_down;
 
 int in_impulse;
+
+// cl_rDrive system structures and data
+#define MAX_RDRIVE_PAIRS 8
+typedef struct {
+    kbutton_t* key1;
+    kbutton_t* key2;
+    const char* name1;
+    const char* name2;
+    double clear_time;      // When to clear the input (0 = no clear pending)
+    qbool key1_cleared;     // Which key was cleared
+    qbool key2_cleared;
+} rdrive_pair_t;
+
+static rdrive_pair_t rdrive_pairs[MAX_RDRIVE_PAIRS];
+static int rdrive_pair_count = 0;
 
 #define VOID_KEY (-1)
 #define NULL_KEY (-2)
@@ -698,6 +717,199 @@ float CL_KeyState(kbutton_t* key, qbool lookbutton)
 }
 
 //==========================================================================
+// cl_rDrive system functions
+//==========================================================================
+
+/*
+ * Get kbutton_t pointer by name for rDrive system
+ * This maps string names to actual button structures
+ */
+static kbutton_t* CL_rDrive_GetButtonByName(const char* name)
+{
+    if (!name) return NULL;
+    
+    // Movement keys
+    if (!Q_strcasecmp(name, "forward")) return &in_forward;
+    if (!Q_strcasecmp(name, "back")) return &in_back;
+    if (!Q_strcasecmp(name, "left")) return &in_left;
+    if (!Q_strcasecmp(name, "right")) return &in_right;
+    if (!Q_strcasecmp(name, "moveleft")) return &in_moveleft;
+    if (!Q_strcasecmp(name, "moveright")) return &in_moveright;
+    if (!Q_strcasecmp(name, "up")) return &in_up;
+    if (!Q_strcasecmp(name, "down")) return &in_down;
+    
+    // Look keys
+    if (!Q_strcasecmp(name, "lookup")) return &in_lookup;
+    if (!Q_strcasecmp(name, "lookdown")) return &in_lookdown;
+    
+    // Other keys
+    if (!Q_strcasecmp(name, "attack")) return &in_attack;
+    if (!Q_strcasecmp(name, "attack2")) return &in_attack2;
+    if (!Q_strcasecmp(name, "jump")) return &in_jump;
+    if (!Q_strcasecmp(name, "use")) return &in_use;
+    if (!Q_strcasecmp(name, "speed")) return &in_speed;
+    if (!Q_strcasecmp(name, "strafe")) return &in_strafe;
+    
+    return NULL;
+}
+
+/*
+ * Parse the cl_rDrive_pairs string and setup the pairs
+ * Format: "forward,back;left,right;attack,attack2"
+ */
+static void CL_rDrive_ParsePairs(void)
+{
+    char pairs_copy[256];
+    char *pair_token, *key_token;
+    char *pair_context, *key_context;
+    int pair_index = 0;
+    
+    // Clear existing pairs
+    rdrive_pair_count = 0;
+    memset(rdrive_pairs, 0, sizeof(rdrive_pairs));
+    
+    if (!cl_rDrive_pairs.string || !cl_rDrive_pairs.string[0]) {
+        return; // No pairs configured
+    }
+    
+    // Make a copy since strtok modifies the string
+    strlcpy(pairs_copy, cl_rDrive_pairs.string, sizeof(pairs_copy));
+    
+    // Parse pairs separated by semicolons
+    pair_token = strtok_r(pairs_copy, ";", &pair_context);
+    while (pair_token && pair_index < MAX_RDRIVE_PAIRS) {
+        char key1_name[32], key2_name[32];
+        
+        // Parse the two keys in this pair (separated by comma)
+        key_token = strtok_r(pair_token, ",", &key_context);
+        if (!key_token) {
+            pair_token = strtok_r(NULL, ";", &pair_context);
+            continue;
+        }
+        strlcpy(key1_name, key_token, sizeof(key1_name));
+        
+        key_token = strtok_r(NULL, ",", &key_context);
+        if (!key_token) {
+            pair_token = strtok_r(NULL, ";", &pair_context);
+            continue;
+        }
+        strlcpy(key2_name, key_token, sizeof(key2_name));
+        
+        // Get the actual button pointers
+        kbutton_t* key1 = CL_rDrive_GetButtonByName(key1_name);
+        kbutton_t* key2 = CL_rDrive_GetButtonByName(key2_name);
+        
+        if (key1 && key2 && key1 != key2) {
+            rdrive_pairs[pair_index].key1 = key1;
+            rdrive_pairs[pair_index].key2 = key2;
+            rdrive_pairs[pair_index].name1 = key1_name; // Note: this points to local var, but it's just for debugging
+            rdrive_pairs[pair_index].name2 = key2_name;
+            rdrive_pairs[pair_index].clear_time = 0;
+            rdrive_pairs[pair_index].key1_cleared = false;
+            rdrive_pairs[pair_index].key2_cleared = false;
+            pair_index++;
+        }
+        
+        pair_token = strtok_r(NULL, ";", &pair_context);
+    }
+    
+    rdrive_pair_count = pair_index;
+}
+
+/*
+ * Generate a random delay within the specified range
+ * Returns delay in seconds (converted from milliseconds)
+ */
+static double CL_rDrive_GetRandomDelay(void)
+{
+    if (cl_rDrive_ms.value <= 0) {
+        return 0.001; // Minimum 1ms delay
+    }
+    
+    // Generate random delay between 0 and cl_rDrive_ms milliseconds
+    double max_delay_ms = cl_rDrive_ms.value;
+    double random_delay_ms = (rand() / (double)RAND_MAX) * max_delay_ms;
+    
+    // Convert to seconds and ensure minimum delay
+    return max(0.001, random_delay_ms / 1000.0);
+}
+
+/*
+ * Process rDrive pairs - check for conflicts and schedule random clearing
+ */
+static void CL_rDrive_ProcessPairs(void)
+{
+    int i;
+    
+    if (!cl_rDrive.integer || rdrive_pair_count == 0) {
+        return;
+    }
+    
+    for (i = 0; i < rdrive_pair_count; i++) {
+        rdrive_pair_t* pair = &rdrive_pairs[i];
+        qbool key1_down = (pair->key1->state & 1) != 0;
+        qbool key2_down = (pair->key2->state & 1) != 0;
+        
+        // Check if we need to process a pending clear
+        if (pair->clear_time > 0 && curtime >= pair->clear_time) {
+            // Time to clear the input
+            if (pair->key1_cleared && (pair->key1->state & 1)) {
+                pair->key1->state &= ~1; // Clear the down state
+            }
+            if (pair->key2_cleared && (pair->key2->state & 1)) {
+                pair->key2->state &= ~1; // Clear the down state
+            }
+            
+            // Reset the clear state
+            pair->clear_time = 0;
+            pair->key1_cleared = false;
+            pair->key2_cleared = false;
+        }
+        
+        // Check for new conflicts (both keys pressed)
+        if (key1_down && key2_down && pair->clear_time == 0) {
+            // Both keys are pressed and no clear is pending
+            // Randomly choose which key to clear and when
+            qbool clear_key1 = (rand() % 2) == 0;
+            double delay = CL_rDrive_GetRandomDelay();
+            
+            pair->clear_time = curtime + delay;
+            pair->key1_cleared = clear_key1;
+            pair->key2_cleared = !clear_key1;
+        }
+        
+        // Reset clear state if both keys are released
+        if (!key1_down && !key2_down) {
+            pair->clear_time = 0;
+            pair->key1_cleared = false;
+            pair->key2_cleared = false;
+        }
+    }
+}
+
+/*
+ * Modified CL_KeyState that respects rDrive clearing
+ * This is used instead of the original CL_KeyState when rDrive is active
+ */
+static float CL_rDrive_KeyState(kbutton_t* key, qbool lookbutton)
+{
+    // First check if this key is being cleared by rDrive
+    if (cl_rDrive.integer && rdrive_pair_count > 0) {
+        int i;
+        for (i = 0; i < rdrive_pair_count; i++) {
+            rdrive_pair_t* pair = &rdrive_pairs[i];
+            if ((pair->key1 == key && pair->key1_cleared && pair->clear_time > 0 && curtime >= pair->clear_time) ||
+                (pair->key2 == key && pair->key2_cleared && pair->clear_time > 0 && curtime >= pair->clear_time)) {
+                return 0.0; // Key is being cleared by rDrive
+            }
+        }
+    }
+    
+    // Use normal key state processing
+    return CL_KeyState(key, lookbutton);
+}
+
+//==========================================================================
 
 void CL_Rotate_f(void)
 {
@@ -777,11 +989,43 @@ void CL_BaseMove(usercmd_t* cmd)
 
 	CL_AdjustAngles();
 
+	// Process rDrive system - parse pairs if needed and handle conflicts
+	if (cl_rDrive.integer) {
+		static char last_pairs_string[256] = "";
+		
+		// Re-parse pairs if the configuration changed
+		if (strcmp(cl_rDrive_pairs.string ? cl_rDrive_pairs.string : "", last_pairs_string) != 0) {
+			CL_rDrive_ParsePairs();
+			strlcpy(last_pairs_string, cl_rDrive_pairs.string ? cl_rDrive_pairs.string : "", sizeof(last_pairs_string));
+		}
+		
+		// Process any pending clears
+		CL_rDrive_ProcessPairs();
+	}
+
 	memset(cmd, 0, sizeof(*cmd));
 
 	VectorCopy(cl.viewangles, cmd->angles);
 
-	if (cl_iDrive.integer) {
+	if (cl_rDrive.integer) {
+		// rDrive mode - use rDrive-aware key state processing
+		if (in_strafe.state & 1) {
+			cmd->sidemove += sidespeed * CL_rDrive_KeyState(&in_right, false);
+			cmd->sidemove -= sidespeed * CL_rDrive_KeyState(&in_left, false);
+		}
+
+		cmd->sidemove += sidespeed * CL_rDrive_KeyState(&in_moveright, false);
+		cmd->sidemove -= sidespeed * CL_rDrive_KeyState(&in_moveleft, false);
+
+		cmd->upmove += upspeed * CL_rDrive_KeyState(&in_up, false);
+		cmd->upmove -= upspeed * CL_rDrive_KeyState(&in_down, false);
+
+		if (!(in_klook.state & 1)) {
+			cmd->forwardmove += forwardspeed * CL_rDrive_KeyState(&in_forward, false);
+			cmd->forwardmove -= backspeed * CL_rDrive_KeyState(&in_back, false);
+		}
+	}
+	else if (cl_iDrive.integer) {
 		float s1, s2;
 
 		if (in_strafe.state & 1) {
@@ -1477,6 +1721,9 @@ void CL_InitInput(void)
 	Cvar_Register(&cl_pitchspeed);
 	Cvar_Register(&cl_anglespeedkey);
 	Cvar_Register(&cl_iDrive);
+	Cvar_Register(&cl_rDrive);
+	Cvar_Register(&cl_rDrive_ms);
+	Cvar_Register(&cl_rDrive_pairs);
 
 	Cvar_SetCurrentGroup(CVAR_GROUP_INPUT_MISC);
 	Cvar_Register(&lookspring);

@@ -528,6 +528,7 @@ set(common_hud_headers
         ${SOURCE_DIR}/hud.h
         ${SOURCE_DIR}/hud_common.h
         ${SOURCE_DIR}/hud_editor.h
+        ${SOURCE_DIR}/hud_itemtimers.h
 )
 set(common_hud
         ${SOURCE_DIR}/hud.c
@@ -546,6 +547,7 @@ set(common_hud
         ${SOURCE_DIR}/hud_guns.c
         ${SOURCE_DIR}/hud_health.c
         ${SOURCE_DIR}/hud_items.c
+        ${SOURCE_DIR}/hud_itemtimers.c
         ${SOURCE_DIR}/hud_net.c
         ${SOURCE_DIR}/hud_performance.c
         ${SOURCE_DIR}/hud_qtv.c

@@ -1,0 +1,46 @@
+title: ezQuake SoftAim
+description: Enhanced QuakeWorld Client with Advanced Input Systems
+theme: jekyll-theme-cayman
+url: https://marffinn.github.io
+baseurl: /ezquake-softaim
+
+# GitHub repository
+repository: marffinn/ezquake-softaim
+
+# Social links
+github_username: marffinn
+
+# SEO
+lang: en
+author: marffinn
+
+# Plugins
+plugins:
+  - jekyll-sitemap
+  - jekyll-feed
+
+# Exclude files
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
+
+# Include files
+include:
+  - _pages
+
+# Collections
+collections:
+  pages:
+    output: true
+    permalink: /:name/
+
+# Defaults
+defaults:
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "default"

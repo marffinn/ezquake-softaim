@@ -32,6 +32,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "utils.h"
 #include "qsound.h"
 #include "tp_msgs.h"
+#include "hud_itemtimers.h"
 
 void OnChangeSkinForcing(cvar_t *var, char *string, qbool *cancel);
 void OnChangeColorForcing(cvar_t *var, char *string, qbool *cancel);
@@ -2577,6 +2578,9 @@ static void ExecTookTrigger (char *s, int flag, vec3_t org)
     vars.tookflag = flag;
 	strlcpy (vars.tookname, s, sizeof (vars.tookname));
 	strlcpy (vars.tookloc, TP_LocationName(org), sizeof(vars.tookloc));
+
+	// Add item timer for respawn tracking
+	HUD_ItemTimers_AddTimer(flag, org);
 
 	if ((tookflags_dmm & flag) && CheckTrigger())
 		TP_ExecTrigger ("f_took");
