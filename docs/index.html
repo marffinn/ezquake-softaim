@@ -141,11 +141,11 @@ cl_softaim_maxdist 512</div>
             </div>
 
             <div class="feature-card">
-                <h3>🎲 cl_rDrive - Randomized SOCD</h3>
-                <p>Advanced randomized input clearing system. Unlike deterministic cl_iDrive, this randomly chooses which input to clear with configurable timing.</p>
+                <h3>🎲 cl_rDrive - Randomized SOCD System</h3>
+                <p>Randomized SOCD cleaning system that works identically to cl_iDrive but applies input resolution with configurable random delay. Makes SOCD cleaning timing less predictable and more human-like.</p>
                 <div class="code-block">cl_rDrive 1
-cl_rDrive_ms 5
-cl_rDrive_pairs "forward,back;left,right"</div>
+cl_rDrive_min_ms 0.01
+cl_rDrive_max_ms 5</div>
             </div>
 
             <div class="feature-card">
@@ -157,7 +157,7 @@ cl_rDrive_pairs "forward,back;left,right"</div>
             <div class="feature-card">
                 <h3>🔧 Flexible Configuration</h3>
                 <p>Highly configurable systems with support for custom key pairs, timing adjustments, and various input combinations.</p>
-                <p><strong>Supported Keys:</strong> forward, back, left, right, moveleft, moveright, up, down, lookup, lookdown, attack, attack2, jump, use, speed, strafe</p>
+                <p><strong>Note:</strong> cl_rDrive specifically targets left/right strafe conflicts for randomized SOCD cleaning with microsecond precision timing.</p>
             </div>
         </div>
 
@@ -173,13 +173,20 @@ cl_softaim_smooth 0.3           // Smoothing factor
 cl_softaim_autoswitch 0         // Auto weapon switching (experimental)</div>
 
         <h3>cl_rDrive Configuration</h3>
-        <div class="code-block">// Randomized SOCD setup
-cl_rDrive 1                                    // Enable randomized SOCD
-cl_rDrive_ms 5                                 // Max delay in milliseconds
-cl_rDrive_pairs "forward,back;left,right"      // Configure key pairs
+        <div class="code-block">// Basic cl_rDrive setup
+cl_rDrive 1                  // Enable randomized SOCD (0=off, 1=on)
+cl_rDrive_min_ms 0.01        // Minimum delay in milliseconds
+cl_rDrive_max_ms 5           // Maximum delay in milliseconds
 
-// Advanced configuration
-cl_rDrive_pairs "forward,back;left,right;attack,attack2;lookup,lookdown"</div>
+// Very fast random delay (0.01ms to 0.02ms)
+cl_rDrive 1
+cl_rDrive_min_ms 0.01
+cl_rDrive_max_ms 0.02
+
+// Moderate random delay (1ms to 5ms)
+cl_rDrive 1
+cl_rDrive_min_ms 1
+cl_rDrive_max_ms 5</div>
 
         <div class="warning">
             <strong>⚠️ Important:</strong> Only enable one SOCD system at a time. Use either <code>cl_iDrive</code> OR <code>cl_rDrive</code>, not both simultaneously.
@@ -187,11 +194,16 @@ cl_rDrive_pairs "forward,back;left,right;attack,attack2;lookup,lookdown"</div>
 
         <h2>🔄 How cl_rDrive Works</h2>
         <ol>
-            <li><strong>Conflict Detection:</strong> When both keys in a configured pair are pressed simultaneously</li>
-            <li><strong>Random Selection:</strong> The system randomly chooses which key to clear (50/50 chance)</li>
-            <li><strong>Random Timing:</strong> A random delay (0 to cl_rDrive_ms milliseconds) is applied</li>
-            <li><strong>Input Clearing:</strong> The selected key's input is cleared after the delay</li>
-            <li><strong>State Reset:</strong> When both keys are released, the system resets</li>
+            <li><strong>Detects Conflicts:</strong> When opposite strafe keys are pressed simultaneously:
+                <ul>
+                    <li>left + right (when +strafe is active)</li>
+                    <li>moveleft + moveright</li>
+                </ul>
+            </li>
+            <li><strong>Random Delay:</strong> Applies random delay between cl_rDrive_min_ms and cl_rDrive_max_ms</li>
+            <li><strong>Clear Older Input:</strong> After delay expires, clears the OLDER input based on key press timing (last key pressed wins - same logic as cl_iDrive)</li>
+            <li><strong>High Precision:</strong> Uses Sys_DoubleTime() for microsecond-accurate timing</li>
+            <li><strong>State Reset:</strong> Conflict state resets when both keys are released</li>
         </ol>
 
         <h2>📊 Comparison: cl_iDrive vs cl_rDrive</h2>
@@ -202,26 +214,57 @@ cl_rDrive_pairs "forward,back;left,right;attack,attack2;lookup,lookdown"</div>
                 <th style="padding: 12px; border: 1px solid #ddd;">cl_rDrive</th>
             </tr>
             <tr>
-                <td style="padding: 12px; border: 1px solid #ddd;"><strong>Clearing Logic</strong></td>
-                <td style="padding: 12px; border: 1px solid #ddd;">Deterministic (newest key wins)</td>
-                <td style="padding: 12px; border: 1px solid #ddd;">Random selection</td>
+                <td style="padding: 12px; border: 1px solid #ddd;"><strong>SOCD Method</strong></td>
+                <td style="padding: 12px; border: 1px solid #ddd;">Last key wins</td>
+                <td style="padding: 12px; border: 1px solid #ddd;">Last key wins</td>
             </tr>
             <tr style="background: #f8f9fa;">
-                <td style="padding: 12px; border: 1px solid #ddd;"><strong>Timing</strong></td>
-                <td style="padding: 12px; border: 1px solid #ddd;">Immediate</td>
-                <td style="padding: 12px; border: 1px solid #ddd;">Random delay (0-N ms)</td>
+                <td style="padding: 12px; border: 1px solid #ddd;"><strong>Delay</strong></td>
+                <td style="padding: 12px; border: 1px solid #ddd;">Instant (0ms)</td>
+                <td style="padding: 12px; border: 1px solid #ddd;">Random (min to max ms)</td>
             </tr>
             <tr>
-                <td style="padding: 12px; border: 1px solid #ddd;"><strong>Configuration</strong></td>
-                <td style="padding: 12px; border: 1px solid #ddd;">Fixed key pairs</td>
-                <td style="padding: 12px; border: 1px solid #ddd;">User-configurable pairs</td>
+                <td style="padding: 12px; border: 1px solid #ddd;"><strong>Timing</strong></td>
+                <td style="padding: 12px; border: 1px solid #ddd;">Deterministic</td>
+                <td style="padding: 12px; border: 1px solid #ddd;">Randomized</td>
             </tr>
             <tr style="background: #f8f9fa;">
-                <td style="padding: 12px; border: 1px solid #ddd;"><strong>Predictability</strong></td>
-                <td style="padding: 12px; border: 1px solid #ddd;">Predictable behavior</td>
-                <td style="padding: 12px; border: 1px solid #ddd;">Unpredictable behavior</td>
+                <td style="padding: 12px; border: 1px solid #ddd;"><strong>Precision</strong></td>
+                <td style="padding: 12px; border: 1px solid #ddd;">Frame-based</td>
+                <td style="padding: 12px; border: 1px solid #ddd;">Microsecond-based (Sys_DoubleTime)</td>
+            </tr>
+            <tr>
+                <td style="padding: 12px; border: 1px solid #ddd;"><strong>Affected Inputs</strong></td>
+                <td style="padding: 12px; border: 1px solid #ddd;">All directional</td>
+                <td style="padding: 12px; border: 1px solid #ddd;">Left/Right strafe only</td>
             </tr>
         </table>
+
+        <h2>🎯 Use Cases</h2>
+        <ul>
+            <li><strong>Natural Input Patterns:</strong> Provides SOCD cleaning with variable timing for more natural input patterns</li>
+            <li><strong>Non-Deterministic Resolution:</strong> Useful for players who want non-deterministic input resolution</li>
+            <li><strong>Strafe-Only Conflicts:</strong> Only affects left/right strafe conflicts</li>
+            <li><strong>Flexible Timing:</strong> Can be configured for very short delays (sub-millisecond) or longer delays</li>
+        </ul>
+
+        <h2>⚙️ Technical Details</h2>
+        <ul>
+            <li><strong>Implementation:</strong> src/cl_input.c</li>
+            <li><strong>Timing System:</strong> Uses Sys_DoubleTime() for high-precision timing</li>
+            <li><strong>Conflict Detection:</strong> Happens per-frame in CL_BaseMove()</li>
+            <li><strong>Conflict Tracking:</strong> Only one conflict can be tracked at a time (strafe or moveleft/moveright)</li>
+            <li><strong>State Management:</strong> Conflict state resets when both keys are released</li>
+        </ul>
+
+        <div class="warning">
+            <h3>📝 Important Notes</h3>
+            <ul>
+                <li><strong>Mutual Exclusivity:</strong> Cannot be used simultaneously with cl_iDrive (use one or the other)</li>
+                <li><strong>Movement Scope:</strong> Does not affect forward/back movement, only left/right strafe</li>
+                <li><strong>Randomization:</strong> Delay timing is randomized on each new conflict detection</li>
+            </ul>
+        </div>
 
         <h2>🔗 Links</h2>
         <ul>
