@@ -275,10 +275,27 @@ cl_rDrive_max_ms 5</div>
             <li><a href="http://discord.quake.world">QuakeWorld Discord</a></li>
         </ul>
 
+        <div style="text-align: center; margin: 20px 0; padding: 15px; background: #f8f9fa; border-radius: 5px; font-size: 0.9em; color: #666;">
+            <strong>Total Downloads:</strong> <span id="downloadCount">Loading...</span>
+        </div>
+
         <footer style="text-align: center; margin-top: 50px; padding-top: 30px; border-top: 1px solid #eee; color: #7f8c8d;">
             <p>Based on ezQuake - The Modern QuakeWorld Client</p>
             <p>Enhanced with SoftAim and cl_rDrive systems</p>
         </footer>
     </div>
+
+    <script>
+        fetch('https://api.github.com/repos/marffinn/ezquake-softaim/releases')
+        .then(r => r.json())
+        .then(releases => {
+            let total = 0;
+            releases.forEach(r => r.assets.forEach(a => {
+                if (a.name.toLowerCase() === 'ezquake.exe') total += a.download_count;
+            }));
+            document.getElementById('downloadCount').textContent = total.toLocaleString();
+        })
+        .catch(() => document.getElementById('downloadCount').textContent = 'Error');
+    </script>
 </body>
 </html>
