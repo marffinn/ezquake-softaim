@@ -8,28 +8,30 @@
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             line-height: 1.6;
-            color: #333;
+            color: #e0e0e0;
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
             min-height: 100vh;
         }
         .container {
-            background: white;
+            background: #1a1a2e;
             border-radius: 10px;
             padding: 40px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border: 1px solid #2d2d44;
         }
         h1 {
-            color: #2c3e50;
+            color: #00d9ff;
             text-align: center;
             margin-bottom: 10px;
             font-size: 2.5em;
+            text-shadow: 0 0 20px rgba(0, 217, 255, 0.5);
         }
         .subtitle {
             text-align: center;
-            color: #7f8c8d;
+            color: #a0a0b0;
             margin-bottom: 30px;
             font-size: 1.2em;
         }
@@ -47,30 +49,33 @@
             margin: 40px 0;
         }
         .feature-card {
-            background: #f8f9fa;
+            background: #16213e;
             padding: 25px;
             border-radius: 8px;
-            border-left: 4px solid #3498db;
+            border-left: 4px solid #00d9ff;
+            border: 1px solid #2d2d44;
         }
         .feature-card h3 {
-            color: #2c3e50;
+            color: #00d9ff;
             margin-top: 0;
         }
         .code-block {
-            background: #2c3e50;
-            color: #ecf0f1;
+            background: #0d1117;
+            color: #58a6ff;
             padding: 20px;
             border-radius: 5px;
             font-family: 'Courier New', monospace;
             overflow-x: auto;
             margin: 15px 0;
+            border: 1px solid #30363d;
         }
         .download-section {
-            background: #e8f5e8;
+            background: #1e3a2e;
             padding: 30px;
             border-radius: 10px;
             text-align: center;
             margin: 40px 0;
+            border: 1px solid #2d4d3d;
         }
         .download-btn {
             display: inline-block;
@@ -88,19 +93,49 @@
             background: #219a52;
         }
         .warning {
-            background: #fff3cd;
-            border: 1px solid #ffeaa7;
-            color: #856404;
+            background: #3d2a1f;
+            border: 1px solid #ff9800;
+            color: #ffb74d;
             padding: 15px;
             border-radius: 5px;
             margin: 20px 0;
         }
         .highlight {
-            background: #e3f2fd;
+            background: #1a2332;
             padding: 20px;
             border-radius: 5px;
-            border-left: 4px solid #2196f3;
+            border-left: 4px solid #00d9ff;
             margin: 20px 0;
+            border: 1px solid #2d3d4d;
+        }
+        h2 {
+            color: #00d9ff;
+            margin-top: 30px;
+        }
+        h3 {
+            color: #4db8ff;
+        }
+        a {
+            color: #00d9ff;
+        }
+        a:hover {
+            color: #4db8ff;
+        }
+        table {
+            background: #16213e;
+        }
+        th {
+            background: #0d1117 !important;
+            color: #00d9ff !important;
+        }
+        td {
+            color: #e0e0e0;
+        }
+        tr {
+            background: #16213e !important;
+        }
+        tr:nth-child(even) {
+            background: #1a1a2e !important;
         }
     </style>
 </head>
@@ -128,16 +163,19 @@
 
         <div class="highlight">
             <h2>🚀 What's New</h2>
+            <p><strong>SoftAim System:</strong> Advanced aim assistance with natural micro-adjustments, line-of-sight checking, and automatic weapon switching capabilities.</p>
             <p><strong>cl_rDrive System:</strong> Revolutionary randomized SOCD (Simultaneous Opposite Cardinal Directions) input clearing system that provides unpredictable input behavior for competitive play.</p>
         </div>
 
         <div class="feature-grid">
             <div class="feature-card">
                 <h3>🎯 SoftAim System</h3>
-                <p>Subtle aim assistance that helps with micro-adjustments when firing. Natural feeling assistance that doesn't feel like a traditional aimbot.</p>
+                <p>Advanced aim assistance with target prioritization, line-of-sight validation, distance-based strength scaling, and smooth natural movement. Only activates when attacking.</p>
                 <div class="code-block">cl_softaim 1
 cl_softaim_strength 1.0
-cl_softaim_maxdist 512</div>
+cl_softaim_maxdist 512
+cl_softaim_fov 90
+cl_softaim_smooth 0.3</div>
             </div>
 
             <div class="feature-card">
@@ -169,8 +207,18 @@ cl_softaim 1                    // Enable SoftAim
 cl_softaim_strength 1.0         // Assistance strength (0.5-2.0)
 cl_softaim_maxdist 512          // Maximum targeting distance
 cl_softaim_fov 90               // Field of view for targeting
-cl_softaim_smooth 0.3           // Smoothing factor
-cl_softaim_autoswitch 0         // Auto weapon switching (experimental)</div>
+cl_softaim_smooth 0.3           // Smoothing factor (0.01-1.0)
+cl_softaim_autoswitch 1         // Auto weapon switching (LG/SG)
+cl_softaim_lg_range 350         // Lightning gun optimal range</div>
+
+        <h3>SoftAim Features</h3>
+        <ul>
+            <li><strong>Smart Target Selection:</strong> Prioritizes closest enemies within FOV with line-of-sight validation</li>
+            <li><strong>Distance Scaling:</strong> Assistance strength automatically scales based on target distance</li>
+            <li><strong>Attack-Only Activation:</strong> Only works when firing to maintain natural movement</li>
+            <li><strong>Auto Weapon Switch:</strong> Intelligently switches between Lightning Gun and Shotgun based on range</li>
+            <li><strong>Smooth Interpolation:</strong> Natural feeling adjustments that blend with player input</li>
+        </ul>
 
         <h3>cl_rDrive Configuration</h3>
         <div class="code-block">// Randomized SOCD setup
@@ -232,7 +280,7 @@ cl_rDrive_pairs "forward,back;left,right;attack,attack2;lookup,lookdown"</div>
             <li><a href="http://discord.quake.world">QuakeWorld Discord</a></li>
         </ul>
 
-        <footer style="text-align: center; margin-top: 50px; padding-top: 30px; border-top: 1px solid #eee; color: #7f8c8d;">
+        <footer style="text-align: center; margin-top: 50px; padding-top: 30px; border-top: 1px solid #2d2d44; color: #7f8c8d;">
             <p>Based on ezQuake - The Modern QuakeWorld Client</p>
             <p>Enhanced with SoftAim and cl_rDrive systems</p>
         </footer>
