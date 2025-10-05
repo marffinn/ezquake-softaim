@@ -1,595 +1,284 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="ezQuake Softaim - Modern QuakeWorld Client with Enhanced Features">
-    <title>ezQuake Softaim - Modern QuakeWorld Client</title>
+    <title>ezQuake SoftAim - Enhanced QuakeWorld Client</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             line-height: 1.6;
-            color: #e0e0e0;
-            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
-            min-height: 100vh;
-        }
-
-        .container {
+            color: #333;
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
-        }
-
-        header {
-            text-align: center;
-            padding: 60px 20px;
-            color: white;
-        }
-
-        header h1 {
-            font-size: 3.5em;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-        }
-
-        header .subtitle {
-            font-size: 1.5em;
-            opacity: 0.9;
-            margin-bottom: 30px;
-        }
-
-        .hero-buttons {
-            margin-top: 30px;
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 15px 35px;
-            margin: 10px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: bold;
-            font-size: 1.1em;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            min-height: 100vh;
         }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
-            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+        .container {
+            background: white;
+            border-radius: 10px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
-
-        .btn-secondary {
-            background: transparent;
-            color: white;
-            border: 2px solid #667eea;
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2.5em;
         }
-
-        .btn-secondary:hover {
-            background: rgba(102, 126, 234, 0.2);
-            border-color: #764ba2;
+        .subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 30px;
+            font-size: 1.2em;
         }
-
-        .content {
-            background: rgba(30, 30, 50, 0.8);
-            border-radius: 20px;
-            padding: 50px;
+        .badges {
+            text-align: center;
             margin: 30px 0;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
-            border: 1px solid rgba(102, 126, 234, 0.2);
         }
-
-        .features {
+        .badges img {
+            margin: 5px;
+        }
+        .feature-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 30px;
             margin: 40px 0;
         }
-
         .feature-card {
-            padding: 30px;
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(118, 75, 162, 0.15) 100%);
-            border-radius: 15px;
-            transition: transform 0.3s ease;
-            border: 1px solid rgba(102, 126, 234, 0.3);
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
         }
-
-        .feature-card:hover {
-            transform: translateY(-5px);
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.25) 0%, rgba(118, 75, 162, 0.25) 100%);
-            border-color: rgba(102, 126, 234, 0.5);
-        }
-
         .feature-card h3 {
-            color: #a8b5ff;
-            margin-bottom: 15px;
-            font-size: 1.5em;
-        }
-
-        .feature-card ul {
-            list-style: none;
-            padding-left: 0;
-        }
-
-        .feature-card li {
-            padding: 8px 0;
-            padding-left: 25px;
-            position: relative;
-        }
-
-        .feature-card li:before {
-            content: "✓";
-            position: absolute;
-            left: 0;
-            color: #a8b5ff;
-            font-weight: bold;
-        }
-
-        h2 {
-            color: #a8b5ff;
-            margin: 40px 0 20px 0;
-            font-size: 2.5em;
-            text-align: center;
-        }
-
-        .installation {
-            background: rgba(102, 126, 234, 0.1);
-            padding: 30px;
-            border-radius: 15px;
-            margin: 30px 0;
-            border: 1px solid rgba(102, 126, 234, 0.2);
-        }
-
-        .installation h3 {
-            color: #a8b5ff;
-            margin-bottom: 15px;
-        }
-
-        .installation ol {
-            padding-left: 25px;
-        }
-
-        .installation li {
-            margin: 10px 0;
-        }
-
-        code {
-            background: rgba(0, 0, 0, 0.4);
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-family: 'Courier New', monospace;
-            color: #ffd700;
-            border: 1px solid rgba(102, 126, 234, 0.3);
-        }
-
-        .download-section {
-            text-align: center;
-            padding: 40px;
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.3) 0%, rgba(118, 75, 162, 0.3) 100%);
-            color: white;
-            border-radius: 15px;
-            margin: 40px 0;
-            border: 1px solid rgba(102, 126, 234, 0.4);
-        }
-
-        .download-section h2 {
-            color: white;
-            margin-bottom: 20px;
-        }
-
-        .platform-buttons {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 20px;
-            margin-top: 30px;
-        }
-
-        .platform-btn {
-            padding: 20px 40px;
-            background: rgba(30, 30, 50, 0.9);
-            color: #a8b5ff;
-            text-decoration: none;
-            border-radius: 10px;
-            font-weight: bold;
-            font-size: 1.2em;
-            transition: all 0.3s ease;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-width: 150px;
-            border: 2px solid rgba(102, 126, 234, 0.4);
-        }
-
-        .platform-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.5);
-            background: rgba(102, 126, 234, 0.3);
-            border-color: #a8b5ff;
-        }
-
-        .platform-icon {
-            font-size: 2em;
-            margin-bottom: 10px;
-        }
-
-        footer {
-            text-align: center;
-            padding: 40px 20px;
-            color: white;
-        }
-
-        footer a {
-            color: white;
-            text-decoration: none;
-            margin: 0 15px;
-            opacity: 0.9;
-            transition: opacity 0.3s ease;
-        }
-
-        footer a:hover {
-            opacity: 1;
-            text-decoration: underline;
-        }
-
-        .community-links {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin: 30px 0;
-            flex-wrap: wrap;
-        }
-
-        .community-link {
-            padding: 15px 30px;
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            text-decoration: none;
-            border-radius: 10px;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            transition: all 0.3s ease;
-        }
-
-        .community-link:hover {
-            background: rgba(255, 255, 255, 0.2);
-            border-color: white;
-        }
-
-        .config-section {
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.25) 0%, rgba(118, 75, 162, 0.25) 100%);
-            color: white;
-            padding: 50px;
-            border-radius: 20px;
-            margin: 40px 0;
-            border: 1px solid rgba(102, 126, 234, 0.4);
-        }
-
-        .config-section h2 {
-            color: white;
+            color: #2c3e50;
             margin-top: 0;
         }
-
-        .config-intro {
-            font-size: 1.1em;
-            margin-bottom: 30px;
-            opacity: 0.95;
-        }
-
-        .config-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin: 30px 0;
-        }
-
-        .config-item {
-            background: rgba(0, 0, 0, 0.3);
+        .code-block {
+            background: #2c3e50;
+            color: #ecf0f1;
             padding: 20px;
-            border-radius: 10px;
-            border: 2px solid rgba(102, 126, 234, 0.3);
-            transition: all 0.3s ease;
-        }
-
-        .config-item:hover {
-            background: rgba(102, 126, 234, 0.2);
-            border-color: rgba(168, 181, 255, 0.6);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-        }
-
-        .config-command {
+            border-radius: 5px;
             font-family: 'Courier New', monospace;
-            font-size: 1.1em;
-            font-weight: bold;
-            margin-bottom: 10px;
-            color: #ffd700;
+            overflow-x: auto;
+            margin: 15px 0;
         }
-
-        .config-description {
-            font-size: 0.95em;
-            line-height: 1.6;
-            opacity: 0.9;
-        }
-
-        .config-note {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 20px;
+        .download-section {
+            background: #e8f5e8;
+            padding: 30px;
             border-radius: 10px;
-            margin-top: 30px;
-            border-left: 4px solid #ffd700;
-            border: 1px solid rgba(255, 215, 0, 0.3);
-            border-left: 4px solid #ffd700;
-        }
-
-        .config-note strong {
-            color: #ffd700;
-        }
-
-        .download-counter {
             text-align: center;
-            padding: 40px;
             margin: 40px 0;
-            background: linear-gradient(135deg, rgba(255, 215, 0, 0.2) 0%, rgba(255, 165, 0, 0.2) 100%);
-            border-radius: 20px;
-            border: 3px solid #ffd700;
-            box-shadow: 0 0 30px rgba(255, 215, 0, 0.4);
         }
-
-        .download-counter h2 {
-            color: #ffd700;
-            font-size: 2em;
-            margin-bottom: 20px;
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
-        }
-
-        .counter-display {
-            font-size: 2.5em;
+        .download-btn {
+            display: inline-block;
+            background: #27ae60;
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 5px;
             font-weight: bold;
-            color: #ffd700;
-            text-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+            font-size: 1.1em;
+            margin: 10px;
+            transition: background 0.3s;
+        }
+        .download-btn:hover {
+            background: #219a52;
+        }
+        .warning {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 15px;
+            border-radius: 5px;
             margin: 20px 0;
         }
-
-        .counter-label {
-            font-size: 1.5em;
-            color: #fff;
-            opacity: 0.9;
-        }
-
-        @keyframes pulse {
-
-            0%,
-            100% {
-                transform: scale(1);
-            }
-
-            50% {
-                transform: scale(1.05);
-            }
-        }
-
-        .loading-counter {
-            color: #a8b5ff;
-            font-size: 1.2em;
-        }
-
-        @media (max-width: 768px) {
-            header h1 {
-                font-size: 2.5em;
-            }
-
-            .content {
-                padding: 30px 20px;
-            }
-
-            .features {
-                grid-template-columns: 1fr;
-            }
-
-            .config-section {
-                padding: 30px 20px;
-            }
-
-            .config-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .counter-display {
-                font-size: 2em;
-            }
-
-            .download-counter {
-                padding: 30px 20px;
-            }
+        .highlight {
+            background: #e3f2fd;
+            padding: 20px;
+            border-radius: 5px;
+            border-left: 4px solid #2196f3;
+            margin: 20px 0;
         }
     </style>
 </head>
-
 <body>
     <div class="container">
-        <header>
-            <h1>ezQuake Softaim</h1>
-            <p class="subtitle">Modern QuakeWorld® Client with Enhanced Features</p>
-            <p>The fastest first person shooter action game ever, now with improved capabilities</p>
-            <div class="hero-buttons">
-                <a href="https://github.com/marffinn/ezquake-softaim/releases" class="btn">Download Latest Release</a>
-                <a href="https://github.com/marffinn/ezquake-softaim" class="btn btn-secondary">View on GitHub</a>
-            </div>
-        </header>
-
-        <div class="download-counter">
-            <h2>📊 Total Downloads</h2>
-            <div class="counter-display" id="downloadCount">
-                <span class="loading-counter">Loading...</span>
-            </div>
-            <div class="counter-label">ezquake.exe downloads across all releases</div>
-        </div>
-
-        <div class="config-section">
-            <h2>🎯 Softaim Configuration</h2>
-            <p class="config-intro">
-                This build includes advanced softaim features. Configure these console variables to customize the
-                behavior to your preferences.
-                Open the console (~ key) and enter these commands:
-            </p>
-
-            <div class="config-grid">
-                <div class="config-item">
-                    <div class="config-command">cl_softaim "1"</div>
-                    <div class="config-description">
-                        Enables or disables the softaim feature. Set to "1" to enable, "0" to disable.
-                    </div>
-                </div>
-
-                <div class="config-item">
-                    <div class="config-command">cl_softaim_fov "30"</div>
-                    <div class="config-description">
-                        Field of view for softaim activation in degrees. Lower values require more precise aim, higher
-                        values are more forgiving.
-                    </div>
-                </div>
-
-                <div class="config-item">
-                    <div class="config-command">cl_softaim_lg_range "600"</div>
-                    <div class="config-description">
-                        Maximum effective range for Lightning Gun softaim. Targets beyond this distance won't be
-                        affected.
-                    </div>
-                </div>
-
-                <div class="config-item">
-                    <div class="config-command">cl_softaim_autoswitch "1"</div>
-                    <div class="config-description">
-                        Automatically switches from Lightning Gun to rocket launcher when enemy is out of LG range. Very
-                        useful for maintaining pressure.
-                    </div>
-                </div>
-
-                <div class="config-item">
-                    <div class="config-command">cl_softaim_maxdist "600"</div>
-                    <div class="config-description">
-                        Maximum distance for softaim to engage targets. Helps prevent unwanted aim assistance on distant
-                        enemies.
-                    </div>
-                </div>
-
-                <div class="config-item">
-                    <div class="config-command">cl_softaim_smoothness "0.6"</div>
-                    <div class="config-description">
-                        Controls how smoothly the aim adjusts (0.0 to 1.0). Lower values = more responsive, higher
-                        values = smoother transitions.
-                    </div>
-                </div>
-
-                <div class="config-item">
-                    <div class="config-command">cl_softaim_strength "40"</div>
-                    <div class="config-description">
-                        Overall strength of the softaim effect. <strong>Experiment with this value to find what works
-                            best for you!</strong> Start with 40 and adjust up or down.
-                    </div>
-                </div>
-            </div>
-
-            <div class="config-note">
-                <strong>💡 Pro Tip:</strong> Create a config file (e.g., <code>softaim.cfg</code>) with these settings
-                and execute it with <code>exec softaim.cfg</code> in the console.
-                This way you can quickly switch between different configurations or restore your preferred settings.
-            </div>
+        <h1>🎯 ezQuake SoftAim</h1>
+        <p class="subtitle">Enhanced QuakeWorld Client with Advanced Input Systems</p>
+        
+        <div class="badges">
+            <img src="https://img.shields.io/github/downloads/marffinn/ezquake-softaim/total?style=for-the-badge&logo=github&label=Total%20Downloads&color=blue" alt="Total Downloads">
+            <img src="https://img.shields.io/github/downloads/marffinn/ezquake-softaim/latest/total?style=for-the-badge&logo=download&label=Latest%20Release&color=green" alt="Latest Release Downloads">
+            <img src="https://img.shields.io/github/release/marffinn/ezquake-softaim?style=for-the-badge&logo=github&label=Latest%20Release&color=orange" alt="Latest Release">
         </div>
 
         <div class="download-section">
-            <h2>Download ezQuake Softaim</h2>
-            <p>Windows binary available now</p>
-            <div class="platform-buttons">
-                <a href="https://github.com/marffinn/ezquake-softaim/releases" class="platform-btn">
-                    <span class="platform-icon">🪟</span>
-                    <span>Windows</span>
-                </a>
-            </div>
-            <p style="margin-top: 20px; opacity: 0.9;">
-                Download the latest release and extract to your Quake directory
-            </p>
+            <h2>📥 Download Latest Release</h2>
+            <p>Get the latest version of ezQuake with SoftAim and cl_rDrive features</p>
+            <a href="https://github.com/marffinn/ezquake-softaim/releases/latest/download/ezquake.exe" class="download-btn">
+                Download ezquake.exe
+            </a>
+            <a href="https://github.com/marffinn/ezquake-softaim/releases" class="download-btn" style="background: #3498db;">
+                View All Releases
+            </a>
         </div>
 
-        <div class="content">
-            <h2>Community & Support</h2>
-            <p style="text-align: center; margin-bottom: 30px;">
-                Join our community and get help from other players and developers
-            </p>
-            <div class="community-links">
-                <a href="http://discord.quake.world/" class="community-link">💬 Discord</a>
-                <a href="https://github.com/marffinn/ezquake-softaim/issues" class="community-link">🐛 Report Issues</a>
-                <a href="http://www.quakeworld.nu/forum/8" class="community-link">💭 Forums</a>
-                <a href="https://ezquake.com" class="community-link">🌐 Official Site</a>
+        <div class="highlight">
+            <h2>🚀 What's New</h2>
+            <p><strong>cl_rDrive System:</strong> Revolutionary randomized SOCD (Simultaneous Opposite Cardinal Directions) input clearing system that provides unpredictable input behavior for competitive play.</p>
+        </div>
+
+        <div class="feature-grid">
+            <div class="feature-card">
+                <h3>🎯 SoftAim System</h3>
+                <p>Subtle aim assistance that helps with micro-adjustments when firing. Natural feeling assistance that doesn't feel like a traditional aimbot.</p>
+                <div class="code-block">cl_softaim 1
+cl_softaim_strength 1.0
+cl_softaim_maxdist 512</div>
+            </div>
+
+            <div class="feature-card">
+                <h3>🎲 cl_rDrive - Randomized SOCD System</h3>
+                <p>Randomized SOCD cleaning system that works identically to cl_iDrive but applies input resolution with configurable random delay. Makes SOCD cleaning timing less predictable and more human-like.</p>
+                <div class="code-block">cl_rDrive 1
+cl_rDrive_min_ms 0.01
+cl_rDrive_max_ms 5</div>
+            </div>
+
+            <div class="feature-card">
+                <h3>⚡ cl_iDrive - Deterministic SOCD</h3>
+                <p>Traditional SOCD cleaning where the most recently pressed key takes priority. Predictable and consistent behavior.</p>
+                <div class="code-block">cl_iDrive 1</div>
+            </div>
+
+            <div class="feature-card">
+                <h3>🔧 Flexible Configuration</h3>
+                <p>Highly configurable systems with support for custom key pairs, timing adjustments, and various input combinations.</p>
+                <p><strong>Note:</strong> cl_rDrive specifically targets left/right strafe conflicts for randomized SOCD cleaning with microsecond precision timing.</p>
             </div>
         </div>
 
-        <footer>
-            <p>&copy; 2024 ezQuake Softaim Project - Open Source (MIT License)</p>
-            <p>
-                <a href="https://github.com/marffinn/ezquake-softaim">GitHub</a> |
-                <a href="https://github.com/marffinn/ezquake-softaim/blob/master/LICENSE">MIT License</a> |
-                <a href="https://ezquake.com">ezQuake.com</a>
-            </p>
-            <p style="margin-top: 20px; opacity: 0.8; font-size: 0.9em;">
-                QuakeWorld® and Quake® are registered trademarks
-            </p>
+        <h2>📖 Configuration Guide</h2>
+
+        <h3>SoftAim Configuration</h3>
+        <div class="code-block">// Basic SoftAim setup
+cl_softaim 1                    // Enable SoftAim
+cl_softaim_strength 1.0         // Assistance strength (0.5-2.0)
+cl_softaim_maxdist 512          // Maximum targeting distance
+cl_softaim_fov 90               // Field of view for targeting
+cl_softaim_smooth 0.3           // Smoothing factor
+cl_softaim_autoswitch 0         // Auto weapon switching (experimental)</div>
+
+        <h3>cl_rDrive Configuration</h3>
+        <div class="code-block">// Basic cl_rDrive setup
+cl_rDrive 1                  // Enable randomized SOCD (0=off, 1=on)
+cl_rDrive_min_ms 0.01        // Minimum delay in milliseconds
+cl_rDrive_max_ms 5           // Maximum delay in milliseconds
+
+// Very fast random delay (0.01ms to 0.02ms)
+cl_rDrive 1
+cl_rDrive_min_ms 0.01
+cl_rDrive_max_ms 0.02
+
+// Moderate random delay (1ms to 5ms)
+cl_rDrive 1
+cl_rDrive_min_ms 1
+cl_rDrive_max_ms 5</div>
+
+        <div class="warning">
+            <strong>⚠️ Important:</strong> Only enable one SOCD system at a time. Use either <code>cl_iDrive</code> OR <code>cl_rDrive</code>, not both simultaneously.
+        </div>
+
+        <h2>🔄 How cl_rDrive Works</h2>
+        <ol>
+            <li><strong>Detects Conflicts:</strong> When opposite strafe keys are pressed simultaneously:
+                <ul>
+                    <li>left + right (when +strafe is active)</li>
+                    <li>moveleft + moveright</li>
+                </ul>
+            </li>
+            <li><strong>Random Delay:</strong> Applies random delay between cl_rDrive_min_ms and cl_rDrive_max_ms</li>
+            <li><strong>Clear Older Input:</strong> After delay expires, clears the OLDER input based on key press timing (last key pressed wins - same logic as cl_iDrive)</li>
+            <li><strong>High Precision:</strong> Uses Sys_DoubleTime() for microsecond-accurate timing</li>
+            <li><strong>State Reset:</strong> Conflict state resets when both keys are released</li>
+        </ol>
+
+        <h2>📊 Comparison: cl_iDrive vs cl_rDrive</h2>
+        <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
+            <tr style="background: #f8f9fa;">
+                <th style="padding: 12px; border: 1px solid #ddd;">Feature</th>
+                <th style="padding: 12px; border: 1px solid #ddd;">cl_iDrive</th>
+                <th style="padding: 12px; border: 1px solid #ddd;">cl_rDrive</th>
+            </tr>
+            <tr>
+                <td style="padding: 12px; border: 1px solid #ddd;"><strong>SOCD Method</strong></td>
+                <td style="padding: 12px; border: 1px solid #ddd;">Last key wins</td>
+                <td style="padding: 12px; border: 1px solid #ddd;">Last key wins</td>
+            </tr>
+            <tr style="background: #f8f9fa;">
+                <td style="padding: 12px; border: 1px solid #ddd;"><strong>Delay</strong></td>
+                <td style="padding: 12px; border: 1px solid #ddd;">Instant (0ms)</td>
+                <td style="padding: 12px; border: 1px solid #ddd;">Random (min to max ms)</td>
+            </tr>
+            <tr>
+                <td style="padding: 12px; border: 1px solid #ddd;"><strong>Timing</strong></td>
+                <td style="padding: 12px; border: 1px solid #ddd;">Deterministic</td>
+                <td style="padding: 12px; border: 1px solid #ddd;">Randomized</td>
+            </tr>
+            <tr style="background: #f8f9fa;">
+                <td style="padding: 12px; border: 1px solid #ddd;"><strong>Precision</strong></td>
+                <td style="padding: 12px; border: 1px solid #ddd;">Frame-based</td>
+                <td style="padding: 12px; border: 1px solid #ddd;">Microsecond-based (Sys_DoubleTime)</td>
+            </tr>
+            <tr>
+                <td style="padding: 12px; border: 1px solid #ddd;"><strong>Affected Inputs</strong></td>
+                <td style="padding: 12px; border: 1px solid #ddd;">All directional</td>
+                <td style="padding: 12px; border: 1px solid #ddd;">Left/Right strafe only</td>
+            </tr>
+        </table>
+
+        <h2>🎯 Use Cases</h2>
+        <ul>
+            <li><strong>Natural Input Patterns:</strong> Provides SOCD cleaning with variable timing for more natural input patterns</li>
+            <li><strong>Non-Deterministic Resolution:</strong> Useful for players who want non-deterministic input resolution</li>
+            <li><strong>Strafe-Only Conflicts:</strong> Only affects left/right strafe conflicts</li>
+            <li><strong>Flexible Timing:</strong> Can be configured for very short delays (sub-millisecond) or longer delays</li>
+        </ul>
+
+        <h2>⚙️ Technical Details</h2>
+        <ul>
+            <li><strong>Implementation:</strong> src/cl_input.c</li>
+            <li><strong>Timing System:</strong> Uses Sys_DoubleTime() for high-precision timing</li>
+            <li><strong>Conflict Detection:</strong> Happens per-frame in CL_BaseMove()</li>
+            <li><strong>Conflict Tracking:</strong> Only one conflict can be tracked at a time (strafe or moveleft/moveright)</li>
+            <li><strong>State Management:</strong> Conflict state resets when both keys are released</li>
+        </ul>
+
+        <div class="warning">
+            <h3>📝 Important Notes</h3>
+            <ul>
+                <li><strong>Mutual Exclusivity:</strong> Cannot be used simultaneously with cl_iDrive (use one or the other)</li>
+                <li><strong>Movement Scope:</strong> Does not affect forward/back movement, only left/right strafe</li>
+                <li><strong>Randomization:</strong> Delay timing is randomized on each new conflict detection</li>
+            </ul>
+        </div>
+
+        <h2>🔗 Links</h2>
+        <ul>
+            <li><a href="https://github.com/marffinn/ezquake-softaim">GitHub Repository</a></li>
+            <li><a href="https://github.com/marffinn/ezquake-softaim/releases">Releases</a></li>
+            <li><a href="https://github.com/marffinn/ezquake-softaim/issues">Report Issues</a></li>
+            <li><a href="https://ezquake.com">Official ezQuake Homepage</a></li>
+            <li><a href="http://discord.quake.world">QuakeWorld Discord</a></li>
+        </ul>
+
+        <footer style="text-align: center; margin-top: 50px; padding-top: 30px; border-top: 1px solid #eee; color: #7f8c8d;">
+            <p>Based on ezQuake - The Modern QuakeWorld Client</p>
+            <p>Enhanced with SoftAim and cl_rDrive systems</p>
         </footer>
     </div>
-
-    <script>
-        async function fetchDownloadCount() {
-            try {
-                const response = await fetch('https://api.github.com/repos/marffinn/ezquake-softaim/releases');
-                const releases = await response.json();
-
-                let totalDownloads = 0;
-
-                releases.forEach(release => {
-                    release.assets.forEach(asset => {
-                        if (asset.name.toLowerCase() === 'ezquake.exe') {
-                            totalDownloads += asset.download_count;
-                        }
-                    });
-                });
-
-                const trackingConfig = {
-                    platformOffset: Math.floor(new Date('2024-01-01').getTime() / 1e10),
-                    sessionWeight: parseInt('5e', 16),
-                    cacheCorrection: 0x5c,
-                    timezoneNorm: new Date().getTimezoneOffset() * 0,
-                    migrationDelta: (0x1 << 4) | 0x0
-                };
-
-                const baselineAdjustment = trackingConfig.platformOffset +
-                    trackingConfig.sessionWeight +
-                    trackingConfig.cacheCorrection +
-                    trackingConfig.migrationDelta;
-
-                const adjustedCount = totalDownloads + baselineAdjustment + Math.floor(trackingConfig.timezoneNorm);
-
-                const counterElement = document.getElementById('downloadCount');
-                counterElement.innerHTML = adjustedCount.toLocaleString();
-
-            } catch (error) {
-                console.error('Error fetching download count:', error);
-                document.getElementById('downloadCount').innerHTML = '<span class="loading-counter">Error loading count</span>';
-            }
-        }
-
-        fetchDownloadCount();
-        setInterval(fetchDownloadCount, 300000);
-    </script>
 </body>
-
 </html>
