@@ -131,44 +131,46 @@
         <div class="feature-grid">
             <div class="feature-card">
                 <h3>🎯 Advanced SoftAim System</h3>
-                <p><strong>Intelligent Aim Assistance:</strong> Sophisticated targeting system that provides natural, human-like aim corrections without feeling robotic or obvious.</p>
+                <p><strong>Intelligent Aim Assistance:</strong> Smart target selection with line-of-sight validation and distance-based strength scaling.</p>
                 <ul style="margin: 15px 0; padding-left: 20px;">
-                    <li>Weapon-specific targeting (Lightning Gun optimized)</li>
-                    <li>Configurable FOV and distance limits</li>
-                    <li>Smooth interpolation with adjustable strength</li>
-                    <li>Auto weapon switching (LG to RL when out of range)</li>
-                    <li>Predictive targeting for moving enemies</li>
+                    <li>Smart target selection (prioritizes closest enemies within FOV)</li>
+                    <li>Line-of-sight validation (no targeting through walls)</li>
+                    <li>Only activates when attacking (+attack pressed)</li>
+                    <li>Auto weapon switching (LG for close, SG for long range)</li>
+                    <li>Ignores teammates, spectators, and dead players</li>
+                    <li>Smooth interpolation that blends with player input</li>
                 </ul>
                 <div class="code-block">cl_softaim 1
-cl_softaim_strength 40
-cl_softaim_fov 30
-cl_softaim_maxdist 600</div>
+cl_softaim_strength 1.0
+cl_softaim_fov 90
+cl_softaim_maxdist 512
+cl_softaim_lg_range 350</div>
             </div>
 
             <div class="feature-card">
                 <h3>🎲 cl_rDrive - Randomized SOCD</h3>
-                <p><strong>Revolutionary Input System:</strong> Next-generation SOCD cleaning with randomized timing that mimics human input patterns for undetectable behavior.</p>
+                <p><strong>Revolutionary Input System:</strong> Randomized input clearing with configurable key pairs and timing for unpredictable competitive play.</p>
                 <ul style="margin: 15px 0; padding-left: 20px;">
-                    <li>Microsecond-precision timing (Sys_DoubleTime)</li>
-                    <li>Configurable min/max delay ranges</li>
-                    <li>Last-key-wins logic with random application</li>
-                    <li>Strafe-specific conflict resolution</li>
-                    <li>Per-frame conflict detection in CL_BaseMove()</li>
+                    <li>Randomly chooses which key to clear (50/50 chance)</li>
+                    <li>Configurable key pairs and delay timing</li>
+                    <li>Supports all movement and action keys</li>
+                    <li>Resets when both keys are released</li>
+                    <li>Fully customizable pair configurations</li>
                 </ul>
                 <div class="code-block">cl_rDrive 1
-cl_rDrive_min_ms 0.01
-cl_rDrive_max_ms 5</div>
+cl_rDrive_ms 5
+cl_rDrive_pairs "forward,back;left,right"</div>
             </div>
 
             <div class="feature-card">
                 <h3>⚡ cl_iDrive - Deterministic SOCD</h3>
-                <p><strong>Classic Input Cleaning:</strong> Traditional SOCD system with instant, predictable behavior for players who prefer consistent input resolution.</p>
+                <p><strong>Classic Input Cleaning:</strong> Traditional SOCD system where the most recent key takes priority with instant, predictable behavior.</p>
                 <ul style="margin: 15px 0; padding-left: 20px;">
-                    <li>Immediate input resolution (0ms delay)</li>
-                    <li>Frame-based processing</li>
-                    <li>All directional inputs supported</li>
-                    <li>Deterministic last-key-wins behavior</li>
-                    <li>Lightweight implementation</li>
+                    <li>Last input priority (newest key always wins)</li>
+                    <li>Instant response (no delays)</li>
+                    <li>Fixed key pairs (predefined)</li>
+                    <li>100% predictable behavior</li>
+                    <li>Consistent gameplay experience</li>
                 </ul>
                 <div class="code-block">cl_iDrive 1</div>
             </div>
@@ -236,28 +238,33 @@ cl_rDrive_max_ms 5</div>
 
         <h3>SoftAim Configuration</h3>
         <div class="code-block">// Basic SoftAim setup
-cl_softaim 1                    // Enable SoftAim
+cl_softaim 1                    // Enable/disable (0 or 1)
 cl_softaim_strength 1.0         // Assistance strength (0.5-2.0)
 cl_softaim_maxdist 512          // Maximum targeting distance
 cl_softaim_fov 90               // Field of view for targeting
-cl_softaim_smooth 0.3           // Smoothing factor
-cl_softaim_autoswitch 0         // Auto weapon switching (experimental)</div>
+cl_softaim_smooth 0.3           // Smoothing factor (0.01-1.0)
+cl_softaim_autoswitch 1         // Auto weapon switching (0 or 1)
+cl_softaim_lg_range 350         // Lightning Gun optimal range
+
+// Presets
+// Subtle:     strength 0.7, smooth 0.5, fov 60
+// Balanced:   strength 1.0, smooth 0.3, fov 90
+// Aggressive: strength 1.5, smooth 0.15, fov 120</div>
 
         <h3>cl_rDrive Configuration</h3>
         <div class="code-block">// Basic cl_rDrive setup
-cl_rDrive 1                  // Enable randomized SOCD (0=off, 1=on)
-cl_rDrive_min_ms 0.01        // Minimum delay in milliseconds
-cl_rDrive_max_ms 5           // Maximum delay in milliseconds
+cl_rDrive 1                                    // Enable randomized SOCD
+cl_rDrive_ms 5                                 // Max delay in milliseconds
+cl_rDrive_pairs "forward,back;left,right"      // Key pair configuration
 
-// Very fast random delay (0.01ms to 0.02ms)
-cl_rDrive 1
-cl_rDrive_min_ms 0.01
-cl_rDrive_max_ms 0.02
+// Supported Keys:
+// forward, back, left, right, moveleft, moveright, up, down,
+// lookup, lookdown, attack, attack2, jump, use, speed, strafe
 
-// Moderate random delay (1ms to 5ms)
-cl_rDrive 1
-cl_rDrive_min_ms 1
-cl_rDrive_max_ms 5</div>
+// Examples:
+// Basic:    cl_rDrive_pairs "forward,back;left,right"
+// Strafe:   cl_rDrive_pairs "moveleft,moveright"
+// Advanced: cl_rDrive_pairs "forward,back;left,right;lookup,lookdown"</div>
 
         <div class="warning">
             <strong>⚠️ Important:</strong> Only enable one SOCD system at a time. Use either <code>cl_iDrive</code> OR <code>cl_rDrive</code>, not both simultaneously.
@@ -285,29 +292,29 @@ cl_rDrive_max_ms 5</div>
                 <th style="padding: 12px; border: 1px solid #ddd;">cl_rDrive</th>
             </tr>
             <tr>
-                <td style="padding: 12px; border: 1px solid #ddd;"><strong>SOCD Method</strong></td>
-                <td style="padding: 12px; border: 1px solid #ddd;">Last key wins</td>
-                <td style="padding: 12px; border: 1px solid #ddd;">Last key wins</td>
+                <td style="padding: 12px; border: 1px solid #ddd;"><strong>Clearing Logic</strong></td>
+                <td style="padding: 12px; border: 1px solid #ddd;">Deterministic (newest wins)</td>
+                <td style="padding: 12px; border: 1px solid #ddd;">Random selection (50/50)</td>
             </tr>
             <tr style="background: #f8f9fa;">
-                <td style="padding: 12px; border: 1px solid #ddd;"><strong>Delay</strong></td>
-                <td style="padding: 12px; border: 1px solid #ddd;">Instant (0ms)</td>
-                <td style="padding: 12px; border: 1px solid #ddd;">Random (min to max ms)</td>
-            </tr>
-            <tr>
                 <td style="padding: 12px; border: 1px solid #ddd;"><strong>Timing</strong></td>
-                <td style="padding: 12px; border: 1px solid #ddd;">Deterministic</td>
-                <td style="padding: 12px; border: 1px solid #ddd;">Randomized</td>
-            </tr>
-            <tr style="background: #f8f9fa;">
-                <td style="padding: 12px; border: 1px solid #ddd;"><strong>Precision</strong></td>
-                <td style="padding: 12px; border: 1px solid #ddd;">Frame-based</td>
-                <td style="padding: 12px; border: 1px solid #ddd;">Microsecond-based (Sys_DoubleTime)</td>
+                <td style="padding: 12px; border: 1px solid #ddd;">Immediate (0ms)</td>
+                <td style="padding: 12px; border: 1px solid #ddd;">Random delay (0-N ms)</td>
             </tr>
             <tr>
-                <td style="padding: 12px; border: 1px solid #ddd;"><strong>Affected Inputs</strong></td>
-                <td style="padding: 12px; border: 1px solid #ddd;">All directional</td>
-                <td style="padding: 12px; border: 1px solid #ddd;">Left/Right strafe only</td>
+                <td style="padding: 12px; border: 1px solid #ddd;"><strong>Configuration</strong></td>
+                <td style="padding: 12px; border: 1px solid #ddd;">Fixed key pairs</td>
+                <td style="padding: 12px; border: 1px solid #ddd;">Fully configurable pairs</td>
+            </tr>
+            <tr style="background: #f8f9fa;">
+                <td style="padding: 12px; border: 1px solid #ddd;"><strong>Predictability</strong></td>
+                <td style="padding: 12px; border: 1px solid #ddd;">100% predictable</td>
+                <td style="padding: 12px; border: 1px solid #ddd;">Unpredictable behavior</td>
+            </tr>
+            <tr>
+                <td style="padding: 12px; border: 1px solid #ddd;"><strong>Use Case</strong></td>
+                <td style="padding: 12px; border: 1px solid #ddd;">Consistent gameplay</td>
+                <td style="padding: 12px; border: 1px solid #ddd;">Competitive advantage</td>
             </tr>
         </table>
 
