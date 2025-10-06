@@ -1,110 +1,98 @@
-# ezQuake — Modern QuakeWorld Client
-Homepage: [https://ezquake.com][homepage]
-
-Community discord: [http://discord.quake.world][discord]
+# ezQuake Soft Aim - Enhanced QuakeWorld Client
 
 ![Downloads](https://img.shields.io/github/downloads/marffinn/ezquake-softaim/total?style=for-the-badge&logo=github&label=Total%20Downloads&color=blue)
 ![Latest Release Downloads](https://img.shields.io/github/downloads/marffinn/ezquake-softaim/latest/total?style=for-the-badge&logo=download&label=Latest%20Release&color=green)
 ![EXE Downloads](https://img.shields.io/github/downloads/marffinn/ezquake-softaim/latest/ezquake.exe?style=for-the-badge&label=ezquake.exe&color=orange)
 
-This is the right place to start playing QuakeWorld&reg; — the fastest first
-person shooter action game ever.
+Advanced QuakeWorld client with intelligent aim assistance and sophisticated input systems for competitive gaming.
 
-Combining the features of all modern QuakeWorld® clients, ezQuake makes
-QuakeWorld&reg; easier to start and play. The immortal first person shooter
-Quake&reg; in the brand new skin with superb graphics and extremely fast
-gameplay.
+## 🎯 Softaim System
 
-## Features
+Advanced aim assistance with intelligent target selection and smooth tracking.
 
- * Modern graphics
- * [QuakeTV][qtv] support
- * Rich menus
- * Multiview support
- * Tons of features to serve latest pro-gaming needs
- * Built in server browser & MP3 player control
- * Recorded games browser
- * Customization of all possible graphics elements of the game including Heads Up Display
- * All sorts of scripting possibilities
- * **Advanced Input Systems**: 
-   - `cl_iDrive`: Deterministic SOCD (Simultaneous Opposite Cardinal Directions) cleaning
-   - `cl_rDrive`: Randomized SOCD cleaning with configurable timing and key pairs
- * Windows, Linux, MacOSX and FreeBSD platforms supported (SDL2).
+**Configuration:**
+```
+cl_softaim 1                    // Enable/disable (0 or 1)
+cl_softaim_strength 1.0         // Assistance strength (0.5-2.0)
+cl_softaim_maxdist 512          // Maximum targeting distance
+cl_softaim_fov 90               // Field of view for targeting
+cl_softaim_smooth 0.3           // Smoothing factor (0.01-1.0)
+cl_softaim_autoswitch 1         // Auto weapon switching (0 or 1)
+cl_softaim_lg_range 350         // Lightning Gun optimal range
+```
 
-Our client comes only with bare minimum of game media. If you want to
-experience ezQuake with modern graphics and other additional media including
-custom configurations, maps, textures and more, try using the [nQuake][nQuake]-installer.
+**Features:**
+- Smart target selection (prioritizes closest enemies within FOV)
+- Line-of-sight validation (no targeting through walls)
+- Distance-based strength scaling
+- Only activates when attacking (+attack pressed)
+- Auto weapon switching (LG for close range, SG for long range)
+- Smooth interpolation that blends with player input
+- Ignores teammates, spectators, and dead players
 
-## Support
+**Presets:**
+- **Subtle:** `strength 0.7, smooth 0.5, fov 60`
+- **Balanced:** `strength 1.0, smooth 0.3, fov 90`
+- **Aggressive:** `strength 1.5, smooth 0.15, fov 120`
 
-Need help with using ezQuake? Try #dev-corner on [discord][discord]
+## 🎲 cl_rDrive - Randomized SOCD System
 
-Or (less populated these days) visit us on IRC at QuakeNet, channel #ezQuake: [webchat][webchat] or [IRC][IRC].
-
-Sometimes help from other users of ezQuake might be more useful to you so you
-can also try visiting the [quakeworld.nu Client Talk-forums][forum].
-
-If you have found a bug, please report it [here][issues]
-
-## Installation guide
-
-To play Quakeworld you need the files *pak0.pak* and *pak1.pak* from the original Quake-game.
-
-### Install ezQuake to an existing Quake-installation
-If you have an existing Quake-installation simply extract the ezQuake executable into your Quake-directory.
-
-A typical error message when installing ezQuake into a pre-existing directory is about *glide2x.dll* missing.
-To get rid of this error, remove the file *opengl32.dll* from your Quake directory.
-
-### Upgrade an nQuake-installation
-If you have a version of [nQuake][nQuake] already installed you can upgrade ezQuake by extracting the new executable into the nQuake-directory.
-
-### Minimal clean installation
-If you want to make a clean installation of ezQuake you can do this by following these steps:
-
-1. Create a new directory
-2. Extract the ezQuake-executable into this directory
-3. Create a subdirectory called *id1*
-4. Copy *pak0.pak* and *pak1.pak* into this subdirectory
-
-## Advanced Input Features
-
-### cl_rDrive - Randomized SOCD System
-
-The `cl_rDrive` system provides randomized input clearing for competitive play, offering an alternative to the deterministic `cl_iDrive` system.
+Randomized input clearing for unpredictable competitive play.
 
 **Configuration:**
 ```
 cl_rDrive 1                                    // Enable randomized SOCD
-cl_rDrive_ms 5                                 // Max delay in milliseconds  
-cl_rDrive_pairs "forward,back;left,right"      // Configure key pairs
+cl_rDrive_ms 5                                 // Max delay in milliseconds
+cl_rDrive_pairs "forward,back;left,right"      // Key pair configuration
 ```
 
-**Supported Keys:** `forward`, `back`, `left`, `right`, `moveleft`, `moveright`, `up`, `down`, `lookup`, `lookdown`, `attack`, `attack2`, `jump`, `use`, `speed`, `strafe`
+**How It Works:**
+1. Detects when conflicting keys are pressed simultaneously
+2. Randomly chooses which key to clear (50/50 chance)
+3. Applies random delay (0 to cl_rDrive_ms milliseconds)
+4. Clears the selected key's input
+5. Resets when both keys are released
 
-**How it works:**
-- When conflicting keys are pressed simultaneously, randomly chooses which input to clear
-- Applies random delay (0 to `cl_rDrive_ms` milliseconds) before clearing
-- Fully configurable key pairs for maximum flexibility
+**Supported Keys:** `forward, back, left, right, moveleft, moveright, up, down, lookup, lookdown, attack, attack2, jump, use, speed, strafe`
 
-## Compiling
+**Examples:**
+```
+Basic:    cl_rDrive_pairs "forward,back;left,right"
+Strafe:   cl_rDrive_pairs "moveleft,moveright"
+Advanced: cl_rDrive_pairs "forward,back;left,right;lookup,lookdown"
+```
 
-On Linux, `./build-linux.sh` produces an ezQuake binary in the top directory. 
+## ⚡ cl_iDrive - Deterministic SOCD System
 
-For a more in-depth description of how to build on all platforms, have a look at 
-[BUILD.md](BUILD.md).
+Traditional SOCD cleaning where most recent key takes priority.
 
-## Nightly builds
+**Configuration:**
+```
+cl_iDrive 1    // Enable deterministic SOCD
+```
 
-Nightly builds can be found [here][nightly]
+**Features:**
+- Last input priority (newest key always wins)
+- Instant response (no delays)
+- Fixed key pairs (predefined)
+- 100% predictable behavior
 
- [nQuake]: http://nquake.com/
- [webchat]: http://webchat.quakenet.org/?channels=#ezquake
- [IRC]: irc://irc.quakenet.org/#ezquake
- [forum]: http://www.quakeworld.nu/forum/8
- [qtv]: http://qtv.quakeworld.nu/
- [nightly]: https://builds.quakeworld.nu/ezquake/snapshots/
- [releases]: https://github.com/ezQuake/ezquake-source/releases
- [issues]: https://github.com/ezQuake/ezquake-source/issues
- [homepage]: https://ezquake.com
- [discord]: http://discord.quake.world/
+⚠️ **WARNING:** Only enable ONE SOCD system at a time! Use either `cl_iDrive` OR `cl_rDrive`, never both simultaneously.
+
+## 📊 Comparison: cl_iDrive vs cl_rDrive
+
+| Feature | cl_iDrive | cl_rDrive |
+|---------|-----------|----------|
+| Clearing Logic | Deterministic (newest wins) | Random selection (50/50) |
+| Timing | Immediate (0ms) | Random delay (0-N ms) |
+| Configuration | Fixed key pairs | Fully configurable pairs |
+| Predictability | 100% predictable | Unpredictable behavior |
+| Use Case | Consistent gameplay | Competitive advantage |
+
+## Download
+
+[**Download ezquake.exe**](https://github.com/marffinn/ezquake-softaim/releases/latest/download/ezquake.exe) | [**View All Files**](https://github.com/marffinn/ezquake-softaim/releases/latest)
+
+---
+
+[Website](https://marffinn.github.io/ezquake-softaim/) | [GitHub](https://github.com/marffinn/ezquake-softaim)
