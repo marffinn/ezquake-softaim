@@ -6,10 +6,8 @@
     <title>ezquake Soft Aim</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
 <body>
-    <canvas id="three-canvas"></canvas>
     <header>
         <nav>
             <a href="#softaim">Softaim</a>
@@ -158,62 +156,59 @@ Advanced: cl_rDrive_pairs "forward,back;left,right;lookup,lookdown"</code></pre>
     </div>
 
     <script>
-        // Three.js scene setup
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('three-canvas'), alpha: true });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setClearColor(0x000000, 0);
-
-        // Create lights
-        const lights = [];
+        // Create floating images
+        const images = [];
         
-        for (let i = 0; i < 50; i++) {
-            const geometry = new THREE.SphereGeometry(0.02, 8, 8);
-            const material = new THREE.MeshBasicMaterial({ 
-                color: 0x6C4838, 
-                transparent: true, 
-                opacity: 0.8 
-            });
-            const light = new THREE.Mesh(geometry, material);
-            light.position.set(
-                (Math.random() - 0.5) * 20,
-                (Math.random() - 0.5) * 10,
-                (Math.random() - 0.5) * 10
-            );
-            light.velocity = {
-                x: (Math.random() - 0.5) * 0.02,
-                y: (Math.random() - 0.5) * 0.02,
-                z: (Math.random() - 0.5) * 0.02
+        for (let i = 0; i < 15; i++) {
+            const img = document.createElement('img');
+            img.src = 'utpm7t9lndf61.png';
+            img.style.position = 'fixed';
+            img.style.width = '50px';
+            img.style.height = '50px';
+            img.style.opacity = '0.6';
+            img.style.pointerEvents = 'none';
+            img.style.zIndex = '-1';
+            img.style.left = Math.random() * window.innerWidth + 'px';
+            img.style.top = Math.random() * window.innerHeight + 'px';
+            
+            const imageData = {
+                element: img,
+                x: Math.random() * window.innerWidth,
+                y: Math.random() * window.innerHeight,
+                vx: (Math.random() - 0.5) * 0.5,
+                vy: (Math.random() - 0.5) * 0.5,
+                rotation: 0,
+                rotationSpeed: (Math.random() - 0.5) * 2
             };
-            lights.push(light);
-            scene.add(light);
+            
+            images.push(imageData);
+            document.body.appendChild(img);
         }
-
-        camera.position.z = 5;
 
         function animate() {
             requestAnimationFrame(animate);
             
-            lights.forEach(light => {
-                light.position.x += light.velocity.x;
-                light.position.y += light.velocity.y;
-                light.position.z += light.velocity.z;
+            images.forEach(imgData => {
+                imgData.x += imgData.vx;
+                imgData.y += imgData.vy;
+                imgData.rotation += imgData.rotationSpeed;
                 
-                if (Math.abs(light.position.x) > 10) light.velocity.x *= -1;
-                if (Math.abs(light.position.y) > 5) light.velocity.y *= -1;
-                if (Math.abs(light.position.z) > 5) light.velocity.z *= -1;
+                if (imgData.x < -50 || imgData.x > window.innerWidth + 50) imgData.vx *= -1;
+                if (imgData.y < -50 || imgData.y > window.innerHeight + 50) imgData.vy *= -1;
+                
+                imgData.element.style.left = imgData.x + 'px';
+                imgData.element.style.top = imgData.y + 'px';
+                imgData.element.style.transform = `rotate(${imgData.rotation}deg)`;
             });
-            
-            renderer.render(scene, camera);
         }
         
         animate();
         
         window.addEventListener('resize', () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
+            images.forEach(imgData => {
+                if (imgData.x > window.innerWidth) imgData.x = window.innerWidth - 50;
+                if (imgData.y > window.innerHeight) imgData.y = window.innerHeight - 50;
+            });
         });
     </script>
 
