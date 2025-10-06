@@ -19,17 +19,10 @@ body {
     line-height: 1.6;
     min-height: 100%;
     position: relative;
+    overflow-x: hidden;
 }
 
-#three-canvas {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-    pointer-events: none;
-}
+
 
 .container {
     max-width: 960px;
@@ -37,37 +30,62 @@ body {
     padding: 20px;
     position: relative;
     z-index: 1;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 header {
-    background-color: var(--night-2);
+    background: rgba(22, 22, 21, 0.8);
     padding: 1rem 0;
     position: sticky;
     top: 0;
     z-index: 10;
-    border-bottom: 1px solid var(--coffee);
-    position: relative;
+    border-bottom: 1px solid rgba(108, 72, 56, 0.3);
+    backdrop-filter: blur(15px);
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
 }
 
 nav {
     display: flex;
     justify-content: center;
-    gap: 2rem;
+    gap: 0.8rem;
     flex-wrap: wrap;
+    padding: 0 1rem;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 nav a {
-    color: var(--coffee);
+    color: var(--text-color);
     text-decoration: none;
-    font-weight: 500;
-    font-size: 1.1rem;
-    padding: 0.5rem 1rem;
-    border: 1px solid var(--coffee);
-    border-radius: 5px;
-    transition: all 0.3s ease;
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 0.7rem 1.2rem;
+    background: rgba(108, 72, 56, 0.15);
+    border: 1px solid rgba(108, 72, 56, 0.3);
+    border-radius: 20px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     transform: translateY(0);
     opacity: 0;
     animation: slideIn 0.6s ease forwards;
+    position: relative;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+nav a::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(108, 72, 56, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+nav a:hover::before {
+    left: 100%;
 }
 
 nav a:nth-child(1) { animation-delay: 0.1s; }
@@ -77,9 +95,14 @@ nav a:nth-child(4) { animation-delay: 0.4s; }
 
 nav a:hover {
     color: var(--night);
-    background-color: var(--coffee);
-    transform: translateY(-3px);
-    box-shadow: 0 4px 8px rgba(108, 72, 56, 0.3);
+    background: linear-gradient(135deg, var(--coffee) 0%, #8B5A47 100%);
+    border-color: var(--coffee);
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(108, 72, 56, 0.4);
+}
+
+nav a:active {
+    transform: translateY(-2px) scale(1.02);
 }
 
 @keyframes slideIn {
@@ -278,84 +301,158 @@ th {
     transform: translateY(-2px);
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
+/* Enhanced Responsive Design */
+@media (max-width: 1024px) {
     .container {
-        padding: 15px;
+        max-width: 90%;
+        padding: 1rem;
     }
     
     nav {
-        gap: 1rem;
+        gap: 0.6rem;
         padding: 0 1rem;
     }
     
     nav a {
-        font-size: 1rem;
-        padding: 0.4rem 0.8rem;
-    }
-    
-    h1 {
-        font-size: 1.8rem;
-    }
-    
-    .feature-section {
-        padding: 1.5rem;
-    }
-    
-    .download-section {
-        padding: 1.5rem;
-        margin: 1rem 0;
-    }
-    
-    .download-btn {
-        font-size: 1rem;
-        padding: 0.7rem 1.2rem;
-    }
-    
-    table {
-        font-size: 0.9rem;
-    }
-    
-    th, td {
-        padding: 0.6rem;
+        padding: 0.6rem 1rem;
+        font-size: 0.95rem;
     }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 768px) {
+    header {
+        padding: 0.8rem 0;
+    }
+    
+    .container {
+        padding: 1rem;
+    }
+    
     nav {
         gap: 0.5rem;
+        padding: 0 0.5rem;
     }
     
     nav a {
         font-size: 0.9rem;
-        padding: 0.3rem 0.6rem;
+        padding: 0.5rem 0.8rem;
+        border-radius: 15px;
     }
     
     h1 {
-        font-size: 1.5rem;
+        font-size: 1.8rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .feature-section {
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .download-section {
+        padding: 1.5rem;
+        margin: 1.5rem 0;
+    }
+    
+    .download-btn {
+        font-size: 0.95rem;
+        padding: 0.7rem 1rem;
+    }
+    
+    table {
+        font-size: 0.9rem;
+        overflow-x: auto;
+        display: block;
+        white-space: nowrap;
+    }
+    
+    th, td {
+        padding: 0.6rem 0.4rem;
+    }
+    
+    pre {
+        font-size: 0.85rem;
+        overflow-x: auto;
+    }
+}
+
+@media (max-width: 480px) {
+    header {
+        padding: 0.6rem 0;
+    }
+    
+    nav {
+        gap: 0.3rem;
+        padding: 0 0.5rem;
+    }
+    
+    nav a {
+        font-size: 0.8rem;
+        padding: 0.4rem 0.6rem;
+        border-radius: 12px;
+    }
+    
+    h1 {
+        font-size: 1.4rem;
+        margin-bottom: 1rem;
+    }
+    
+    h2 {
+        font-size: 1.2rem;
     }
     
     .feature-section {
         padding: 1rem;
+        margin-bottom: 1rem;
     }
     
     .download-section {
         padding: 1rem;
+        margin: 1rem 0;
     }
     
     .download-links {
         flex-direction: column;
-        align-items: center;
+        gap: 0.8rem;
     }
     
     .download-btn {
         width: 100%;
-        max-width: 250px;
+        max-width: 280px;
+        font-size: 0.9rem;
+        padding: 0.8rem 1rem;
         justify-content: center;
     }
     
+    .download-stats img {
+        width: 100%;
+        max-width: 200px;
+        height: auto;
+        margin: 0.3rem;
+    }
+    
     pre {
-        font-size: 0.8rem;
+        font-size: 0.75rem;
         padding: 0.8rem;
+        border-radius: 8px;
+    }
+    
+    table {
+        font-size: 0.8rem;
+    }
+    
+    th, td {
+        padding: 0.4rem 0.2rem;
+        font-size: 0.75rem;
+    }
+    
+    .footer {
+        padding: 1.5rem 0;
+    }
+    
+    .footer a {
+        display: block;
+        margin: 0.5rem 0;
+        padding: 0.6rem;
     }
 }
