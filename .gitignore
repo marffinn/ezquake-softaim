@@ -19,6 +19,7 @@ MinSizeRel/
 build-*/
 cmake-build-*/
 CMakeFiles/
+src/
 CMakeCache.txt
 cmake_install.cmake
 CTestTestfile.cmake
